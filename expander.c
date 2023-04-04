@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:37:04 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/28 20:26:40 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 11:52:17 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,18 @@ char	*remove_dollar(char *str)
 {
 	int		i;
 	int		j;
+	int		flag;
 	char	*new;
 
+	flag = 0;
 	new = malloc(ft_strlen(str));
 	j = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && flag == 0)
 		{
+			flag = 1;
 			i++;
 		}
 		new[j] = str[i];
@@ -153,7 +156,7 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 	*i = *j + 1;
 	while (content[*i] != '\"' && content[*i] != '\0')
 	{
-		if (content[*i] == '$')
+		if (content[*i] == '$' && is_valid(content[*i + 1]) == 0)
 			flag = 1;
 		(*i)++;
 	}
@@ -172,17 +175,44 @@ char	*expand_variables_unquoted(char *content, t_env *env, int *i, int *j)
 {
 	char	*new_content;
 	char	*new_token;
+	int		flag;
 
+	flag = 0;
 	new_content = NULL;
 	new_token = ft_strdup("");
 	*j = *i;
-	while (content[*i] != '\0' && content[*i] != '\'' && content[*i] != '\"')
-		(*i)++;
+	if((content[*i] == '$' && content[*i + 1] == '\"') || (content[*i] == '$' && content[*i + 1] == '\''))
+	{
+		(*i) += 2;
+		if(content[*i - 1] == '\'')
+		{
+			while(content[*i] != '\'' && content[*i] != '\0')
+				(*i)++;
+		}
+		else
+		{
+			while(content[*i] != '\"' && content[*i] != '\0')
+				(*i)++;
+		}
+		flag = 1;
+	}
+	else
+	{	if(content[*i] == '$')
+		{
+			(*i)++;
+			if(content[*i] == '?')
+				(*i)++;
+		}		
+		while (content[*i] != '\0' && is_valid(content[*i]) == 0)
+			(*i)++;
+	}
 	new_content = expand_var(&content[*j], env, *i - *j);
 	new_token = sl_strjoin(new_token, new_content);
 	content = ft_strdup(new_token);
 	free(new_token);
 	free(new_content);
+	if (flag == 1)
+		(*i)++;
 	return (content);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/28 11:57:58 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 12:06:21 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,30 +106,29 @@ int	check_for_numbers(char *str)
 int	execute_exit(t_cmd *cmd)
 {
 	t_token	*token;
-	int		exit_code;
 
-	exit_code = 0;
 	token = cmd->head;
 	if (token->next == NULL)
-		exit(exit_code);
+		exit(g_status);
 	if (token->next->next != NULL)
 	{
 		print_error("bash: exit: too many arguments");
+		g_status = 1;
 		return (1);
 	}
 	else
 	{
 		if (check_for_numbers(token->next->content) == 0)
 		{
-			exit_code = ft_atoi(token->content);
-			if (exit_code > 255 || exit_code < 0)
-				exit_code = 255;
+			g_status = ft_atoi(token->content);
+			if (g_status > 255 || g_status < 0)
+				g_status = 255;
 			if (token->next->next != NULL)
 				print_error("bash: exit: too many arguments");
-			exit (exit_code);
+			exit (g_status);
 		}
 		else
-			exit(0);
+			exit(g_status);
 	}
 }
 
@@ -203,9 +202,11 @@ void	execute_cd(t_cmd *cmd)
 	}
 	else if (chdir(cmd->head->next->content) == -1)
 		print_error("No such file or directory");
+		print_error("\n");
+		
 }
 
-void	execute_unset(t_cmd *cmd, t_env **node)
+int	execute_unset(t_cmd *cmd, t_env **node)
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -215,6 +216,14 @@ void	execute_unset(t_cmd *cmd, t_env **node)
 	token = token->next;
 	while (token && token->argument == ARGUMENT)
 	{	
+		if (is_valid_export(token->content) == 1)
+		{
+			print_error("unset: ");
+			print_error(token->content);
+			print_error(" is not a valid identifier\n");
+			g_status = 1;
+			return (1);
+		}
 		tmp = *node;
 		while (tmp)
 		{
@@ -230,6 +239,7 @@ void	execute_unset(t_cmd *cmd, t_env **node)
 		}
 		token = token->next;
 	}
+	return (0);
 }
 
 int rest(char *str)
@@ -249,7 +259,10 @@ int	compare_cmd(t_cmd *cmd, t_env *node)
 	if (ft_strcmp("env", cmd->head->content) == 0)
 		execute_env(node);
 	else if (ft_strcmp("unset", cmd->head->content) == 0)
-		execute_unset(cmd, &node);
+	{
+		if (execute_unset(cmd, &node) == 1)
+			return (1);
+	}
 	else if (ft_strcmp("cd", cmd->head->content) == 0)
 		execute_cd(cmd);
 	else if (ft_strcmp("pwd", cmd->head->content) == 0)

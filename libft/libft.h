@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 11:21:40 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/30 16:15:01 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:10:03 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdint.h>
 # include "get_next_line.h"
 
-size_t	ft_strlen(const char *s);
+size_t		ft_strlen(const char *s);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);

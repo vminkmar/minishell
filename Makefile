@@ -9,7 +9,7 @@ FILES			:=	lexer.c main.c signal.c set_env.c utils.c parser.c execute_stuff.c co
 					here_doc.c
 RM				:=	rm -f
 
-LINKFLAGS		:=
+LINK_FLAGS		:= 
 
 DOWNLOADFOLDER	= dwnlds
 
@@ -77,6 +77,6 @@ lsan: LINK_FLAGS += $(LSANLFLAGS)
 lsan: fclean $(LSANLIB)
 lsan: all
 $(LSAN):
-	git clone https://github.com/mhahnFr/LeakSanitizer.git $(REDIRECT)
+	git clone https://github.com/mhahnFr/LeakSanitizer.git
 $(LSANLIB): $(LSAN)
-	@$(MAKE) -C LeakSanitizer $(REDIRECT)
+	@$(MAKE) -C LeakSanitizer

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:23:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/31 12:53:06 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:16:41 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int check_after_dollar(char *str)
 	i = 0;
 	while(str[i] != '\0')
 	{	
+		if ((str[i] == '$' && str[i + 1] == '\"') || (str[i] == '$' && str[i + 1] == '\''))
+			return (2);
 		if (str[i] == '$' && is_valid(str[i + 1]) == 1 && str[i + 1] != '?')
 		{
 			return (1);
@@ -79,9 +81,22 @@ char	*change_value_util(char **str, t_env *env, int *i)
 	int		flag;
 	char	*dollar;
 	t_env	*node;
+	int		j;
+	int		k;
 
+	j = 0;
 	flag = 0;
 	node = env;
+	if (check_after_dollar(str[*i]) == 2)
+	{
+		str[*i] = remove_dollar(str[*i]);
+		k = ft_strlen(str[*i]);
+		if (str[*i][0] == '\'')
+			str[*i] = expand_sq(str[*i], &j, &k);
+		if (str[*i][0] == '\"')
+			str[*i] = remove_dq(str[*i], &j);
+		return(str[*i]);
+	}	
 	if (check_after_dollar(str[*i]) == 1)
 		return(str[*i]);
 	dollar = malloc(ft_strlen(str[*i]));
@@ -146,6 +161,24 @@ char	**get_words(char *str, char **value, int length)
 	j = 0;
 	while (i < length)
 	{
+		if((str[i] == '$' && str[i + 1] == '\"') || (str[i] == '$' && str[i + 1] == '\''))
+		{
+			j = i;
+			i += 2;
+			if(str[i - 1] == '\'')
+			{
+				while(str[i] != '\'' && str[i] != '\0')
+					(i)++;
+			}
+			else
+			{
+				while(str[i] != '\"' && str[i] != '\0')
+					(i)++;
+			}
+			value[words] = ft_substr(str, j, i + 1 - j);
+			words ++;
+			j = i;
+		}
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
 			j = i;
@@ -196,12 +229,28 @@ int	get_number(char *str, int length)
 	counter = 0;
 	while (i < length)
 	{
-		if(str[i] == '$' && str[i + 1] == '?')
+		if((str[i] == '$' && str[i + 1] == '\"') || (str[i] == '$' && str[i + 1] == '\''))
+		{
+			(i) += 2;
+			if(str[i - 1] == '\'')
+			{
+				while(str[i] != '\'' && str[i] != '\0')
+					(i)++;
+			}
+			else
+			{
+				while(str[i] != '\"' && str[i] != '\0')
+					(i)++;
+			}
+			counter ++;
+			(i)--;
+		}
+		else if(str[i] == '$' && str[i + 1] == '?')
 		{
 			counter ++;
 			i = i + 2;
 		}
-		if (str[i] == '$')
+		else if (str[i] == '$')
 		{
 			i ++;
 			while (is_valid(str[i]) == 0)

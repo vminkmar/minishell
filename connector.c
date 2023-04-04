@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/31 20:08:31 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 11:44:32 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,17 @@ void free_env_strings(char **env)
 	}
 }
 
-void	checking_redirections(t_cmd *cmd, t_execute *exec)
+void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 {
 	t_token *token;
 	int		out;
 	int		in;
-
+	int		counter;
+	
+	counter = 0;
 	exec->in = STDIN_FILENO;
 	exec->out = STDOUT_FILENO;
-	while(cmd != NULL)
+	while(counter < end && cmd != NULL)
 	{
 		token = cmd->head;
 		while (token != NULL)
@@ -139,8 +141,8 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec)
 			token = token->next;
 		}
 		cmd = cmd->next;
+		counter ++;
 	}
-
 }
 
 
@@ -148,7 +150,8 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 {
 	t_execute	exec;
 	char		**env;
-
+	exec.pipe_num = 0;
+	
 	if (lexer(input, cmd) == 1)
 		return (1);
 	cmd = parse_stuff(cmd);
@@ -156,7 +159,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 		return (1);
 	if (expander(cmd, node) == 1)
 		return (1);
-	checking_redirections(cmd, &exec);	//new function
+	checking_redirections(cmd, &exec, exec.pipe_num + 1);
 	exec.pipes = count_pipes(cmd);
 	exec.commands = linked_to_char(cmd, exec);
 	env =  linked_env_to_strings(node);
@@ -168,19 +171,14 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 				return(1);
 		}
 		else
-		{
-			exec.pipe_num = 0;
-			execute_without_pipes(&exec, env, node, cmd);
-		}
+			execute(&exec, env, node, cmd);
 	}
 	else
-	{
-		dup2(exec.out, STDOUT_FILENO);
-		dup2(exec.in, STDIN_FILENO);
-		ft_pipe(cmd, node, exec, env);
+	{	
+		ft_pipe(cmd, node, &exec, env);
 	}
-	dup2(exec.out, STDOUT_FILENO);
 	dup2(exec.in, STDIN_FILENO);
+	dup2(exec.out, STDOUT_FILENO);
 	free_exec(exec.commands);
 	free_env_strings(env);
 	return (0);

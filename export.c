@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/31 14:23:44 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/03 19:46:29 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int	is_valid_export(char *str)
 	int i;
 
 	i = 0;
-	while(str[i] != '=')
+	while(str[i] != '\0')
 	{
-		if ((str[0] < 'A' && str[0] > 'Z') || (str[0] < 'a' && str[0] > 'z') 
-			|| str[0] != '_')
+		if ((str[0] < 'A' || str[0] > 'Z') && (str[0] < 'a' || str[0] > 'z'))
 		{
-			return (1);
+			if (str[0] != '_')
+				return (1);
 		}
-		if ((str[i] < 'A' && str[i] > 'Z') || (str[i] < 'a' && str[i] > 'z') 
-			|| str[i] != '_' || (str[i] < '0' && str[i] > '9'))
+		if ((str[i] < 'A' && str[i] > 'Z') && (str[i] < 'a' && str[i] > 'z') 
+			&& str[i] != '_' && (str[i] < '0' && str[i] > '9'))
 			return (1);
 		i ++;
 	}
@@ -72,6 +72,12 @@ int check_before_equal(char *str)
 	return (0);
 }
 
+int check_first_sign(char *str)
+{
+	if ((str[0] < 'a' && str[0] > 'z') && (str[0] < 'A' && str[0] > 'Z') && (str[0] != '_'))
+		return (1);
+	return (0);
+}
 
 int	get_new_node_exec(t_token *token, t_env **node)
 {
@@ -82,8 +88,8 @@ int	get_new_node_exec(t_token *token, t_env **node)
 		a = split_env(token->content, '=');
 		if (check_before_equal(token->content) == 2 && a[1] == NULL)
 			a[1] = ft_strdup("");
-		if ((check_before_equal(token->content) == 1 && a[1] == NULL)
-			|| is_valid_export(token->content) == 1)
+		if ((check_before_equal(token->content) == 1 || a[1] == NULL)
+			|| is_valid_export(a[0]) == 1)
 		{
 			print_error("export: ");
 			print_error(token->content);

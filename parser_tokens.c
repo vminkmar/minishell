@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:09:30 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/21 16:17:43 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/01 17:35:33 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,33 @@ int	check_for_options(t_token *token)
 	return (1);
 }
 
+int check_redirections(char *str)
+{
+	if (ft_strcmp(">", str) == 0 
+		|| ft_strcmp(">>", str) == 0
+		|| ft_strcmp("<", str) == 0
+		|| ft_strcmp("<<", str) == 0)
+		return (0);
+	return (1);
+}
+
+
 int	check_for_variables(t_token *token)
 {
-	if (ft_strcmp(">", token->content) == 0
-		|| ft_strcmp(">>", token->content) == 0
-		|| ft_strcmp("<", token->content) == 0
-		|| ft_strcmp("<<", token->content) == 0)
+	if (check_redirections(token->content) == 0)
 		token->argument = REDI;
 	if (token->argument == REDI)
 	{
 		if (token->next != NULL)
 		{
 			token = token->next;
-			token->argument = FILENAME;
+			if(check_redirections(token->content) == 1)
+				token->argument = FILENAME;
+			else
+				return (-1);
 		}
-		if (token == NULL)
-		{
-			print_error("syntax error near unexpected token\n");
+		else
 			return (-1);
-		}
 		return (1);
 	}
 	else if (check_for_options(token) == 0)
@@ -54,8 +62,13 @@ int	check_for_variables(t_token *token)
 	return (0);
 }
 
-void	check_command(t_cmd *cmd)
+int	check_command(t_cmd *cmd)
 {
+	if (cmd->head == NULL)
+	{
+		print_error("syntax error near unexpected token");
+		return (1);
+	}
 	if (ft_strcmp(">", cmd->head->content) == 0
 		|| ft_strcmp(">>", cmd->head->content) == 0
 		|| ft_strcmp("<", cmd->head->content) == 0
@@ -66,6 +79,7 @@ void	check_command(t_cmd *cmd)
 		cmd->head->content = make_it_small(cmd->head->content);
 		cmd->head->argument = COMMAND;
 	}
+	return (0);
 }
 
 int	check_token(t_token *token)
@@ -79,9 +93,17 @@ int	check_token(t_token *token)
 	return (0);
 }
 
-int	check_token_and_variables(t_token *tmp, t_cmd *search)
+// int check_syntax(t_token *token)
+// {
+// 	while(token != NULL)
+// 	{
+		
+		
+// 	}
+// }
+
+int	check_token_and_variables(t_token *tmp)
 {
-	tmp = search->head;
 	while (tmp != NULL)
 	{
 		if (check_token(tmp) == 1)
@@ -98,8 +120,13 @@ int	check_token_and_variables(t_token *tmp, t_cmd *search)
 				return (1);
 			}
 		}
+		// if (check_syntax(tmp) == 1)
+		// 	return (1);
 		if (check_for_variables(tmp) == -1)
+		{
+			print_error("syntax error near unexpected token\n");
 			return (1);
+		}
 		if (tmp->next == NULL)
 			break ;
 		tmp = tmp->next;

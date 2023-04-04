@@ -99,7 +99,7 @@ void print_linked_list(t_cmd *cmd);
 
 void	create_first_cmd(t_cmd **cmd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t		ft_strlen(const char *s);
+size_t	ft_strlen(const char *s);
 char	*ft_strtrim(char const *s1, char const *set);
 int		is_sign(char c);
 int		is_whitespace(char c);
@@ -116,14 +116,15 @@ int	compare_char(char *str, char c);
 int	ft_strcmp(const char *s1, const char *s2);
 int	check_quotes(t_token *token);
 char	*make_it_small(char *str);
-int	check_token_and_variables(t_token *tmp, t_cmd *search);
-void	check_command(t_cmd *cmd);
+int		check_token_and_variables(t_token *tmp);
+int		check_command(t_cmd *cmd);
 void	check_rd_out(t_token *tmp);
 void	check_rd_in(t_token *tmp);
 
 //buildins
 void execute_env(t_env *node);
 t_env *new_node(char *a[], t_env **node);
+int	is_valid_export(char *str);
 
 
 //signal
@@ -154,6 +155,7 @@ char *change_value(char **str, t_env *env, int i, int j);
 char *expand_var(char *str, t_env *env, int i);
 char *get_value(char *value, char *str);
 int expander(t_cmd *cmd, t_env *env);
+char	*expand_sq(char *content, int *i, int *j);
 
 //expander_utils
 int is_valid(char c);
@@ -163,8 +165,9 @@ char	*sl_strjoin(char *s1, char *s2);
 //error_management
 void free_cmd_token(t_cmd **cmd);
 void free_all(t_env **node);
-void free_list(t_cmd **cmd);
+t_cmd *free_list(t_cmd **cmd);
 void print_error(char *str);
+t_cmd *free_list_error(t_cmd **cmd);
 
 
 // lexer
@@ -207,14 +210,16 @@ void executor(t_execute *exec);
 int count_pipes(t_cmd *cmd);
 void	ft_exec(char *argv[], char **env, t_env *node);
 int	redirect(char *str, int fileno, char mode);
-int	ft_pipe(t_cmd *cmd, t_env *node, t_execute exec, char **env);
+int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env);
 char *search_env(char *name, t_env *node);
 void free_exec(char ***array);
 int		execute(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 int		execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 int		execute_without_pipes(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
+void	checking_redirections(t_cmd *cmd, t_execute *exec, int end);
 
 
+int	get_fd(char *name, char mode, int fileno);
 
 //pipes
 

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/03/30 19:32:52 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 13:20:35 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,12 @@ void	ft_exec(char *argv[], char **env, t_env *node)
 
 	argv = rm_redi(argv);
 	path = search_env("PATH", node);
+	if (path == NULL)
+		print_error("There is no such directory or file!\n");
+	// path = getenv("PATH");
 	path_arr = ft_split(path, ':');			//check for absolute path
 	i = 0;
 	temp = ft_strjoin("/", argv[0]);
-	// ft_putstr_fd(argv[0], 2);
-	// ft_putstr_fd("\n", 2);
 	while (path_arr[i] != NULL)
 	{
 		joined = ft_strjoin(path_arr[i], temp);

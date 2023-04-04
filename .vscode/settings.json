@@ -29,6 +29,7 @@
 		"type_traits": "c",
 		"vector": "c",
 		"ios": "c",
-		"__mutex_base": "c"
+		"__mutex_base": "c",
+		"stdlib.h": "c"
 	}
 }
