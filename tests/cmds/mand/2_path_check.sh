@@ -2,7 +2,7 @@
 #   PATH FAILS                                                                 #
 # **************************************************************************** #
 
-et PATH
+unset PATH
 echo $PATH
 cat
 ls
@@ -18,7 +18,7 @@ echo $PATH
 cat
 ls
 echo 1
-/bin/echo 42
+/bin/echo 42q
 
 export PATH=""
 echo $PATH

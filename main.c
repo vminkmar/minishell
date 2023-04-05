@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 16:17:19 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:38:02 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int argc, char *argv[], char *env[])
 		{
 			continue ;
 		}
-		// input = "env";
+		// input = "/ls";
 		create_first_cmd(&cmd);
 		if(connector(input, cmd, node) == 1)
 			cmd = free_list_error(&cmd);

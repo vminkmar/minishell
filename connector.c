@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 16:20:18 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:28:29 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 			ft_pipe(cmd, node, &exec, env);
 	}
 	else	
-		ft_pipe(cmd, node, &exec, env);
+ 		ft_pipe(cmd, node, &exec, env);
 	free_exec(exec.commands);
 	free_env_strings(env);
 	return (0);

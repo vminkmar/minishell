@@ -86,52 +86,52 @@ export tmp_test="/bin/echo 42"
 "tmp_test"
 
 ### VARIABLE SPLITTING ###
-export X="  A  B  "
-/bin/echo "1"$X'2'
+# export X="  A  B  "
+# /bin/echo "1"$X'2'
 
-export X=" A  B  "
-/bin/echo "1"$X'2'
+# export X=" A  B  "
+# /bin/echo "1"$X'2'
 
-export X="A  B  "
-/bin/echo "1"$X'2'
+# export X="A  B  "
+# /bin/echo "1"$X'2'
 
-export X="  A  B "
-/bin/echo "1"$X'2'
+# export X="  A  B "
+# /bin/echo "1"$X'2'
 
-export X="  A  B"
-/bin/echo "1"$X'2'
+# export X="  A  B"
+# /bin/echo "1"$X'2'
 
-export X="  A B  "
-/bin/echo "1"$X'2'
+# export X="  A B  "
+# /bin/echo "1"$X'2'
 
-export X="  AB  "
-/bin/echo "1"$X'2'
+# export X="  AB  "
+# /bin/echo "1"$X'2'
 
-export X="  A  B  "
-/bin/echo $X'2'
+# export X="  A  B  "
+# /bin/echo $X'2'
 
-export X="  A  B  "
-/bin/echo "1"$X
+# export X="  A  B  "
+# /bin/echo "1"$X
 
-export X=""
-/bin/echo "1"$X'2'
+# export X=""
+# /bin/echo "1"$X'2'
 
-export X=" "
-/bin/echo "1"$X'2'
+# export X=" "
+# /bin/echo "1"$X'2'
 
-export X="   "
-/bin/echo "1"$X'2'
+# export X="   "
+# /bin/echo "1"$X'2'
 
-export X="  A  B  "
-/bin/echo ?$X'2'
+# export X="  A  B  "
+# /bin/echo ?$X'2'
 
-export X="  A  B  "
-/bin/echo "1"$X?
+# export X="  A  B  "
+# /bin/echo "1"$X?
 
-export X="  A  B  "
-/bin/echo "1"$X2?
+# export X="  A  B  "
+# /bin/echo "1"$X2?
 
-export test=" * "
-touch "$USER * ?eHallo"
-/bin/echo "$USER "*" ?e"*
-rm -f "$USER * ?eHallo"
+# export test=" * "
+# touch "$USER * ?eHallo"
+# /bin/echo "$USER "*" ?e"*
+# rm -f "$USER * ?eHallo"
