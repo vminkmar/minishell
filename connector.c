@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 22:35:32 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 13:59:19 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,49 +99,47 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 	int		out;
 	int		in;
 	int		counter;
-	
+
 	counter = 0;
 	exec->in = STDIN_FILENO;
 	exec->out = STDOUT_FILENO;
-	while(counter < end && cmd != NULL)
+	while (counter < end - 1)
 	{
-		token = cmd->head;
-		while (token != NULL)
+		cmd = cmd->next;
+		counter++;
+	}
+	token = cmd->head;
+	while (token != NULL)
+	{
+		if (token->argument == REDI)
 		{
-			if (token->argument == REDI)
+			if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
 			{
-				if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
-				{
-					token = token->next;
-					exec->in = redirect(here_doc(token->next->content, 1), STDIN_FILENO, 'n');
-				}
-				else if (ft_strcmp(token->content, "<<") == 0)
-					exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
-				else if (ft_strcmp(token->content, "<") == 0)
-				{
-					in = redirect(token->next->content, STDIN_FILENO, 'n');
-					if (exec->in == STDIN_FILENO)
-						exec->in = in;
-					else
-						close(in);
-				}
-				else
-				{
-					if (ft_strcmp(token->content, ">") == 0)
-						out = redirect(token->next->content, STDOUT_FILENO, 'n');
-					else if (ft_strcmp(token->content, ">>") == 0)
-						out = redirect(token->next->content, STDOUT_FILENO, 'a');
-					if (exec->out == STDOUT_FILENO)
-						exec->out = out;
-					else
-						close(out);
-				}
 				token = token->next;
+				exec->in = redirect(here_doc(token->next->content, 1), STDIN_FILENO, 'n');
+			}
+			else if (ft_strcmp(token->content, "<<") == 0)
+				exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
+			else if (ft_strcmp(token->content, "<") == 0)
+			{
+				if (exec->in != STDIN_FILENO)
+					close(in);
+				in = redirect(token->next->content, STDIN_FILENO, 'n');
+				exec->in = in;
+			}
+			else
+			{
+				if (exec->out != STDOUT_FILENO)
+					close(out);
+				if (ft_strcmp(token->content, ">") == 0)
+					out = redirect(token->next->content, STDOUT_FILENO, 'n');
+				else if (ft_strcmp(token->content, ">>") == 0)
+					out = redirect(token->next->content, STDOUT_FILENO, 'a');
+				exec->out = out;
 			}
 			token = token->next;
 		}
-		cmd = cmd->next;
-		counter ++;
+		token = token->next;
 	}
 }
 
@@ -163,7 +161,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 	t_execute	exec;
 	char		**env;
 	exec.pipe_num = 0;
-	
+
 	if (lexer(input, cmd) == 1)
 		return (1);
 	cmd = parse_stuff(cmd);
@@ -184,7 +182,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 		else
 			ft_pipe(cmd, node, &exec, env);
 	}
-	else	
+	else
 		ft_pipe(cmd, node, &exec, env);
 	free_exec(exec.commands);
 	free_env_strings(env);

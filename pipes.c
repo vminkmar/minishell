@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 12:26:28 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 13:58:07 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 {
 	exec->pipe_num = 0;
 	exec->tmp_fd = dup(STDIN_FILENO);
-	exec->pids = malloc(sizeof(pid_t) * (exec->pipes + 1)); 
+	exec->pids = malloc(sizeof(pid_t) * (exec->pipes + 1));
 	while (exec->pipe_num < exec->pipes + 1)
 	{
 		checking_redirections(cmd, exec, exec->pipe_num + 1);
 		pipe(exec->pipes_fd);
 		if (exec->pipe_num == exec->pipes)
-			execute_last(exec, env, node, cmd);	
+			execute_last(exec, env, node, cmd);
 		else
 			execute(exec, env, node, cmd);
 		exec->pipe_num++;
@@ -74,7 +74,7 @@ int	execute_without_pipes(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 		exit(1);
 	}
 	else
-	{	
+	{
 		waitpid(pid, &status, 0);
 		if(WIFEXITED(status))
 			g_status = WEXITSTATUS(status);
@@ -88,7 +88,7 @@ int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 {
 	pid_t	pid;
 	int counter;
-	
+
 	counter = 0;
 	pid = fork();
 	if (pid == 0)
@@ -179,8 +179,8 @@ int	execute(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 			exec->tmp_fd = dup(STDIN_FILENO);
 			exec->out = dup(STDOUT_FILENO);
 		}
-		else	
-		{	
+		else
+		{
 			exec->tmp_fd = dup(exec->pipes_fd[0]);
 			close(exec->pipes_fd[0]);
 		}

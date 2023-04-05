@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 22:56:00 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:00:06 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	end_shell(t_env **node)
 }
 
 char *get_input(char *input, t_env *node)
-{;
+{
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
@@ -104,13 +104,14 @@ int	main(int argc, char *argv[], char *env[])
 		input = get_input(input, node);
 		if (input == NULL)
 			continue ;
-		// input = "/bin/echo 1 >/dev/null | /usr/bin/grep 1";
+		// input = "echo Hello";
 		create_first_cmd(&cmd);
 		if(connector(input, cmd, node) == 1)
 			cmd = free_list_error(&cmd);
 		// print_linked_list(cmd);
 		free(input);
  		cmd = free_list(&cmd);
+		usleep(10000);
 	}
 	return (g_status);
 }
