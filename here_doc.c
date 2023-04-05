@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:39:18 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 18:17:34 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 00:23:25 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*get_eof(char **argv);
 int		get_tab(char first, char *line);
 void	write_lines(char first, char *eof, int fd, t_env *env);
 
-// Get as argument the delimiter and if it should suppress tabs ('-' option).
-// This function will return the filename with the text before EOF;
 char	*here_doc(char *eof, char suppress, t_env *env)
 {
 	int		fd;
@@ -31,13 +29,12 @@ char	*here_doc(char *eof, char suppress, t_env *env)
 	return (".heredoc_data");
 }
 
-
-char *expand_here_doc(char *str, t_env *env)
+char	*expand_here_doc(char *str, t_env *env)
 {
 	char	*new_content;
 
 	new_content = expand_var(str, env, ft_strlen(str) + 1);
-	// free(str);
+	free(str);
 	str = ft_strdup(new_content);
 	free(new_content);
 	return (str);
