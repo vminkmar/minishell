@@ -6,35 +6,35 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:36:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 11:35:04 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 13:25:45 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd *free_list(t_cmd **cmd)
+void free_list(t_cmd *cmd)
 {
 	t_token	*tmp;
 	t_token	*del;
 	t_cmd	*temp;
 
-	if((*cmd) != NULL)
+	if(cmd != NULL)
 	{	
-		while ((*cmd)->next != NULL)
+		while (cmd->next != NULL)
 		{
-			tmp = (*cmd)->head;
+			tmp = cmd->head;
 			while (tmp->next != NULL)
 			{
 				del = tmp;
 				tmp = tmp->next;
 				free(del->content);
+				free(del);
 			}
-			temp = (*cmd);
-			(*cmd) = (*cmd)->next;
+			temp = cmd;
+			cmd = cmd->next;
 			free(temp);
 		}
 	}
-	return (NULL);
 }
 
 

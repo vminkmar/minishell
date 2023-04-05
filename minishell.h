@@ -166,7 +166,7 @@ char	*sl_strjoin(char *s1, char *s2);
 //error_management
 void free_cmd_token(t_cmd **cmd);
 void free_all(t_env **node);
-t_cmd *free_list(t_cmd **cmd);
+void free_list(t_cmd *cmd);
 void print_error(char *str);
 t_cmd *free_list_error(t_cmd **cmd);
 

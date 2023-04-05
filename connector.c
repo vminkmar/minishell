@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 22:35:32 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:20:18 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int get_size(t_env *node)
 
 char ** linked_env_to_strings(t_env *node)
 {
-	t_env	*tmp;
 	int		i;
 	char	**str;
 	char	*new;
@@ -37,21 +36,16 @@ char ** linked_env_to_strings(t_env *node)
 
 	size = get_size(node);
 	i = 0;
-	tmp = node;
 	str = malloc(sizeof(char *) * (size + 1));
-	while(tmp != NULL)
+	while(node != NULL)
 	{
-		str[i] = ft_strdup(tmp->name);
+		str[i] = ft_strdup(node->name);
 		new = sl_strjoin(str[i], "=");
-		free(str[i]);
-		str[i] = ft_strdup(new);
-		free(new);
-		new = sl_strjoin(str[i], ft_strdup(tmp->value));
-		free(str[i]);
+		new = sl_strjoin(str[i], ft_strdup(node->value));
 		str[i] = ft_strdup(new);
 		free(new);
 		i++;
-		tmp = tmp->next;
+		node = node->next;
 	}
 	str[i] = NULL;
 	return (str);
@@ -100,6 +94,57 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 	int		in;
 	int		counter;
 	
+	exec->in = STDIN_FILENO;
+	exec->out = STDOUT_FILENO;
+	counter = 0;
+	while (counter < end)
+	{
+		cmd = cmd->next;
+		counter++;
+	}
+	token = cmd->head;
+	while (token != NULL)
+	{
+		if (token->argument == REDI)
+		{
+			if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
+			{
+				token = token->next;
+				exec->in = redirect(here_doc(token->next->content, 1), STDIN_FILENO, 'n');
+			}
+			else if (ft_strcmp(token->content, "<<") == 0)
+				exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
+			else if (ft_strcmp(token->content, "<") == 0)
+			{
+				if(exec->in != STDIN_FILENO)
+					close(in);
+				in = redirect(token->next->content, STDIN_FILENO, 'n');
+				exec->in = in;
+			}
+			else
+			{
+				if (exec->out != STDOUT_FILENO)
+					close(out);
+				if (ft_strcmp(token->content, ">") == 0)
+					out = redirect(token->next->content, STDOUT_FILENO, 'n');
+				else if (ft_strcmp(token->content, ">>") == 0)
+					out = redirect(token->next->content, STDOUT_FILENO, 'a');
+				exec->out = out;
+			}
+			token = token->next;
+		}
+		token = token->next;
+	}
+}
+
+/* 
+void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
+{
+	t_token *token;
+	int		out;
+	int		in;
+	int		counter;
+	
 	counter = 0;
 	exec->in = STDIN_FILENO;
 	exec->out = STDOUT_FILENO;
@@ -119,22 +164,20 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 					exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
 				else if (ft_strcmp(token->content, "<") == 0)
 				{
-					in = redirect(token->next->content, STDIN_FILENO, 'n');
-					if (exec->in == STDIN_FILENO)
-						exec->in = in;
-					else
+					if(exec->in != STDIN_FILENO)
 						close(in);
+					in = redirect(token->next->content, STDIN_FILENO, 'n');
+					exec->in = in;
 				}
 				else
 				{
+					if (exec->out != STDOUT_FILENO)
+						close(out);
 					if (ft_strcmp(token->content, ">") == 0)
 						out = redirect(token->next->content, STDOUT_FILENO, 'n');
 					else if (ft_strcmp(token->content, ">>") == 0)
 						out = redirect(token->next->content, STDOUT_FILENO, 'a');
-					if (exec->out == STDOUT_FILENO)
-						exec->out = out;
-					else
-						close(out);
+					exec->out = out;
 				}
 				token = token->next;
 			}
@@ -144,6 +187,8 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 		counter ++;
 	}
 }
+
+ */
 
 int look_out_for_builtin(t_cmd *cmd)
 {

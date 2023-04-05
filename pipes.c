@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 12:26:28 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:07:51 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void wait_all(t_execute *exec)
 	int status;
 
 	counter = 0;
-	while(counter < exec->pipe_num)
+	while(counter < exec->pipe_num + 1)
 	{
 		waitpid(exec->pids[counter], &status, 0);
 		counter ++;
@@ -34,10 +34,10 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 {
 	exec->pipe_num = 0;
 	exec->tmp_fd = dup(STDIN_FILENO);
-	exec->pids = malloc(sizeof(pid_t) * (exec->pipes + 1)); 
+	exec->pids = malloc(sizeof(pid_t) * (exec->pipes + 1));
 	while (exec->pipe_num < exec->pipes + 1)
 	{
-		checking_redirections(cmd, exec, exec->pipe_num + 1);
+		checking_redirections(cmd, exec, exec->pipe_num);
 		pipe(exec->pipes_fd);
 		if (exec->pipe_num == exec->pipes)
 			execute_last(exec, env, node, cmd);	
@@ -47,40 +47,6 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 	}
 	wait_all(exec);
 
-	return (0);
-}
-
-int	execute_without_pipes(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
-{
-	pid_t	pid;
-	int		counter;
-	int		status;
-
-	counter = 0;
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		while(counter < exec->pipe_num && cmd != NULL)
-		{
-			cmd = cmd->next;
-			counter ++;
-		}
-		if(look_out_for_command(cmd) == 0)
-			compare_cmd(cmd, node);
-		else
-			ft_exec(exec->commands[exec->pipe_num], env, node);
-		exit(1);
-	}
-	else
-	{	
-		waitpid(pid, &status, 0);
-		if(WIFEXITED(status))
-			g_status = WEXITSTATUS(status);
-		if(WIFSIGNALED(status))
-			g_status = WTERMSIG(status) + 128;
-	}
 	return (0);
 }
 
@@ -122,10 +88,13 @@ int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 	}
 	else
 	{
-		close(exec->pipes_fd[1]);
-		close(exec->pipes_fd[0]);
-		close(exec->tmp_fd);
-		if (exec->out != STDOUT_FILENO)
+		if (exec->pipes_fd[1] > 2)
+			close(exec->pipes_fd[1]);
+		if (exec->pipes_fd[0] > 2)
+			close(exec->pipes_fd[0]);
+		if (exec->tmp_fd > 2)
+			close(exec->tmp_fd);
+		if (exec->out > 2)
 			close(exec->out);
 	}
 	return (0);
@@ -171,19 +140,14 @@ int	execute(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 	else
 	{
 		exec->pids[exec->pipe_num] = pid;
-		close(exec->pipes_fd[1]);
-		close(exec->tmp_fd);
-		if (exec->out != STDOUT_FILENO)
-		{
+		if (exec->pipes_fd[1] > 2)
+			close(exec->pipes_fd[1]);
+		if (exec->tmp_fd > 2)
+			close(exec->tmp_fd);
+		if (exec->out > 2)
 			close(exec->out);
-			exec->tmp_fd = dup(STDIN_FILENO);
-			exec->out = dup(STDOUT_FILENO);
-		}
-		else	
-		{	
-			exec->tmp_fd = dup(exec->pipes_fd[0]);
-			close(exec->pipes_fd[0]);
-		}
+		exec->tmp_fd = dup(exec->pipes_fd[0]);
+		close(exec->pipes_fd[0]);
 	}
 	return (0);
 }

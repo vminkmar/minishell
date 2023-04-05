@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/04 13:20:35 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 15:58:53 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ void	ft_exec(char *argv[], char **env, t_env *node)
 	path = search_env("PATH", node);
 	if (path == NULL)
 		print_error("There is no such directory or file!\n");
-	// path = getenv("PATH");
-	path_arr = ft_split(path, ':');			//check for absolute path
+	path_arr = ft_split(path, ':');
 	i = 0;
 	temp = ft_strjoin("/", argv[0]);
 	while (path_arr[i] != NULL)
@@ -117,6 +116,7 @@ void	ft_exec(char *argv[], char **env, t_env *node)
 	free(temp);
 	ft_free(path_arr);
 	print_error("There is no such executable!\n");
+	return ;
 }
 
 void	found_it(char *argv[], char *joined, char *path_arr[], char **env)
@@ -129,10 +129,9 @@ void	found_it(char *argv[], char *joined, char *path_arr[], char **env)
 		free_join = 'n';
 	argv[0] = joined;
 	ft_free(path_arr);
-	if (execve(argv[0], argv, env) == -1)
-	{
-		perror("Error: ");
-	}
+	execve(argv[0], argv, env);
+	perror("Error: ");
 	if (free_join == 'y')
 		free(joined);
+	exit (1);
 }

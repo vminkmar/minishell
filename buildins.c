@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 12:27:30 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:23:01 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,11 @@ void	execute_env(t_env *node)
 {
 	while (node != NULL)
 	{
-		// if(node->name == NULL)
-		// 	error;
 		if (node->value != NULL)
-			ft_putstr_fd(node->name, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putstr_fd(node->value, STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
+			ft_putstr_fd(node->name, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(node->value, 1);
+			ft_putstr_fd("\n", 1);
 		node = node->next;
 	}
 }
