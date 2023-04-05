@@ -1,13 +1,28 @@
-{
-
-	"version":"0.2.0",
-	"configurations": [{
-		"name":"Launch",
-		"type":"cppdbg",
-		"program":"${workspaceFolder}/minishell",
-		"args":[],
-		"cwd":"${workspaceFolder}",
-		"request":"launch",
-		"MIMode":"lldb"
-	}]
-}
+	{
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug Child Process with LLDB",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${workspaceFolder}/minishell",
+				"args": [],
+				"cwd": "${workspaceFolder}",
+				"stopAtEntry": false,
+				"externalConsole": false,
+				"MIMode": "lldb",
+				"setupCommands": [
+					{
+						"description": "Enable child process debugging",
+						"text": "process plugin packet enable --plugin lldb-process-posix",
+						"ignoreFailures": true
+					},
+					{
+						"description": "Set follow-fork-mode to child",
+						"text": "settings set target.process-follow-fork-mode child",
+						"ignoreFailures": true
+					}
+				]
+			}
+		]
+	}

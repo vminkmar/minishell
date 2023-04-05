@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 11:44:32 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:35:32 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,18 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 	}
 }
 
+int look_out_for_builtin(t_cmd *cmd)
+{
+	if (ft_strcmp("unset", cmd->head->content) == 0)
+		return (0);
+	else if (ft_strcmp("cd", cmd->head->content) == 0)
+		return (0);
+	else if (ft_strcmp("export", cmd->head->content) == 0)
+		return (0);
+	else if (ft_strcmp("exit", cmd->head->content) == 0)
+		return (0);
+	return (1);
+}
 
 int	connector(char *input, t_cmd *cmd, t_env *node)
 {
@@ -159,26 +171,21 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 		return (1);
 	if (expander(cmd, node) == 1)
 		return (1);
-	checking_redirections(cmd, &exec, exec.pipe_num + 1);
 	exec.pipes = count_pipes(cmd);
 	exec.commands = linked_to_char(cmd, exec);
 	env =  linked_env_to_strings(node);
 	if (exec.pipes == 0)
 	{
-		if (look_out_for_command(cmd) == 0)
+		if (look_out_for_builtin(cmd) == 0)
 		{
 			if(compare_cmd(cmd, node) == 1)
 				return(1);
 		}
 		else
-			execute(&exec, env, node, cmd);
+			ft_pipe(cmd, node, &exec, env);
 	}
-	else
-	{	
+	else	
 		ft_pipe(cmd, node, &exec, env);
-	}
-	dup2(exec.in, STDIN_FILENO);
-	dup2(exec.out, STDOUT_FILENO);
 	free_exec(exec.commands);
 	free_env_strings(env);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 12:06:21 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:27:30 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	execute_echo(t_cmd *cmd)
 	}
 }
 
-void	execute_pwd()
+int	execute_pwd()
 {
 	char	*a;
 
@@ -188,9 +188,10 @@ void	execute_pwd()
 	// 	error;
 	ft_putstr_fd(a, STDOUT_FILENO);
 	ft_putstr_fd("\n", STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }
 
-void	execute_cd(t_cmd *cmd)
+int	execute_cd(t_cmd *cmd)
 {
 	const char	*str;
 
@@ -199,11 +200,15 @@ void	execute_cd(t_cmd *cmd)
 	{
 		str = getenv("HOME");
 		chdir(str);
+		return (EXIT_SUCCESS);
 	}
 	else if (chdir(cmd->head->next->content) == -1)
+	{
 		print_error("No such file or directory");
 		print_error("\n");
-		
+		return (EXIT_FAILURE);
+	}	
+	return (EXIT_FAILURE);
 }
 
 int	execute_unset(t_cmd *cmd, t_env **node)
@@ -221,7 +226,6 @@ int	execute_unset(t_cmd *cmd, t_env **node)
 			print_error("unset: ");
 			print_error(token->content);
 			print_error(" is not a valid identifier\n");
-			g_status = 1;
 			return (1);
 		}
 		tmp = *node;
@@ -264,11 +268,15 @@ int	compare_cmd(t_cmd *cmd, t_env *node)
 			return (1);
 	}
 	else if (ft_strcmp("cd", cmd->head->content) == 0)
+	{
 		execute_cd(cmd);
+	}
 	else if (ft_strcmp("pwd", cmd->head->content) == 0)
+	{
 		execute_pwd();
+	}
 	else if (ft_strcmp("export", cmd->head->content) == 0)
-	{	
+	{
 		if (execute_export(cmd, &node) == 1)
 			return (1);
 	}

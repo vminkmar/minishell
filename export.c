@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/03 19:46:29 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:53:22 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int	execute_export(t_cmd *cmd, t_env **node)
 	if (node == NULL || *node == NULL)
 	{
 		if (create_new_env(node, cmd->head->next->content) == 1)
-			return (1);
+			return (EXIT_FAILURE);
 	}
 	if (token->next == NULL || token->next->argument != ARGUMENT)
 		print_export(*node);
@@ -171,5 +171,5 @@ int	execute_export(t_cmd *cmd, t_env **node)
 			token = token->next;
 		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

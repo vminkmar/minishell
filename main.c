@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 13:08:55 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:56:00 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ int	main(int argc, char *argv[], char *env[])
 		input = get_input(input, node);
 		if (input == NULL)
 			continue ;
-		// input = "unset =";
+		// input = "/bin/echo 1 >/dev/null | /usr/bin/grep 1";
 		create_first_cmd(&cmd);
 		if(connector(input, cmd, node) == 1)
 			cmd = free_list_error(&cmd);
 		// print_linked_list(cmd);
 		free(input);
-		cmd = free_list(&cmd);
+ 		cmd = free_list(&cmd);
 	}
 	return (g_status);
 }

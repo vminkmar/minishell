@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 10:33:53 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/21 15:37:24 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 23:00:43 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ t_env	*new_node(char *a[], t_env **node)
 	new_node->name = ft_strdup(a[0]);
 	new_node->value =  ft_strdup(a[1]);
 	new_node->next = NULL;
+	free(a[0]);
+	free(a[1]);
+	free(a);
 	return (new_node);
 }
 
@@ -59,9 +62,7 @@ void	set_env(char *env[], t_env **node)
 		tmp = new_node(a, node);
 		lstadd_back_new_node(node, tmp);
 		i++;
-		free(a[0]);
-		free(a[1]);
-		free(a);
+
 	}
 
 }

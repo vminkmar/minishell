@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 09:04:26 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/01 18:45:24 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:47:09 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute exec, char **env)
 	fd_out = redirect(PIPE2, STDOUT_FILENO, 'n');
 	while (exec.pipe_num < exec.pipes + 1)
 	{
-		checking_redirec
 		if (exec.pipe_num == exec.pipes)
 		{
 			if (dup2(fd_out, STDOUT_FILENO) == -1)

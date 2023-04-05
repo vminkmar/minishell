@@ -86,6 +86,7 @@ typedef struct s_execute
 	int		pipe_num;
 	int		pipes_fd[2];
 	int		tmp_fd;
+	int		*pids;
 	int		out;
 	int		in;
 
@@ -214,7 +215,7 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env);
 char *search_env(char *name, t_env *node);
 void free_exec(char ***array);
 int		execute(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
-int		execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
+int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 int		execute_without_pipes(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 void	checking_redirections(t_cmd *cmd, t_execute *exec, int end);
 
