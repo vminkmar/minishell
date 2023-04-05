@@ -6,7 +6,8 @@ FILES			:=	lexer.c main.c signal.c set_env.c utils.c parser.c execute_stuff.c co
 					expander.c lexer_utils.c expander_utils.c buildins.c set_env_utils.c lexer_pipes_redirections.c\
 					lexer_check_quotes.c lexer_whitespaces_words.c parser_quotes.c parser_utils.c parser_redirections.c\
 					parser_tokens.c expander_quotes.c expander_var.c utils_utils.c ft_exec.c export.c pipes.c redirections.c\
-					here_doc.c
+					here_doc.c connector_free.c expand_variables.c expand_variables_utils.c expander_checks_dollar.c\
+					expander_get_words.c
 RM				:=	rm -f
 
 LINK_FLAGS		:= 

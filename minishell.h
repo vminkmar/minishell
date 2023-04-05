@@ -92,6 +92,16 @@ typedef struct s_execute
 
 } t_execute;
 
+typedef struct s_sup
+{
+	char	**value;
+	int		i;
+	int		j;
+	int		words;
+
+} t_sup;
+
+
 void print_linked_list(t_cmd *cmd);
 
 
@@ -121,10 +131,11 @@ int		check_token_and_variables(t_token *tmp);
 int		check_command(t_cmd *cmd);
 void	check_rd_out(t_token *tmp);
 void	check_rd_in(t_token *tmp);
+int	check_redirections(char *str);
 
 //buildins
 void execute_env(t_env *node);
-t_env *new_node(char *a[], t_env **node);
+int	set_env(char *env[], t_env **node);
 int	is_valid_export(char *str);
 
 
@@ -134,7 +145,8 @@ void signal_handler(int sig);
 
 //set_env
 void	lstadd_back_new_node(t_env **lst, t_env *new);
-void	set_env(char *env[], t_env **node);
+// int		set_env(char *env[], t_env **node);
+t_env	*new_node(char *a[], t_env **node);
 
 //set_env_utils
 char	**split_env(char const *s, char c);
@@ -147,16 +159,28 @@ void	add_node(char *a[], t_env **node);
 //expander
 char *remove_dq(char *str, int *i);
 char *remove_sq(char *str, int *i);
-char **get_words(char *str, char **value, int length);
+char	**get_words(char *str, int length, int counter, t_sup *sup);
 int get_number(char *str, int length);
 char *remove_variable(char *str);
 char *remove_dollar(char *str);
-char	*stupid_shit( char *s1, char *s2);
+char	*stupid_shit( char *s1, char *s2, int *i, int *j);
 char *change_value(char **str, t_env *env, int i, int j);
 char *expand_var(char *str, t_env *env, int i);
 char *get_value(char *value, char *str);
 int expander(t_cmd *cmd, t_env *env);
 char	*expand_sq(char *content, int *i, int *j);
+char	*expand_variables_unquoted(char *content, t_env *env, int *i, int *j);
+int get_number_util(char *str, int *i, int counter);
+
+
+//expand_variables_quoted
+char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j);
+
+//expander_checks_dollar
+int check_after_dollar(char *str);
+int check_question_mark(char *str);
+char *change_question_mark(char *str);
+char *change_question_mark_utils(char *str, char *new, char *number, int size);
 
 //expander_utils
 int is_valid(char c);
@@ -192,13 +216,18 @@ void create_cmd(t_cmd **cmd);
 t_token *create_token(char *j);
 void add_token(t_cmd *cmd, char *j);
 
+//connector_fre
+void free_env_strings(char **env);
+
+
+
 //connector
 int connector(char *input, t_cmd *cmd, t_env *env);
 char ***linked_to_char(t_cmd *cmd, t_execute exec);
 int		get_command(t_cmd *cmd, t_env *node, t_execute exec, char **env);
 int	compare_cmd(t_cmd *cmd, t_env *node);
 int look_out_for_command(t_cmd *cmd);
-char	*here_doc(char *eof, char suppress);
+char	*here_doc(char *eof, char suppress, t_env *env);
 
 
 
@@ -217,7 +246,8 @@ void free_exec(char ***array);
 int		execute(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
 int		execute_without_pipes(t_execute *exec, char **env, t_env *node, t_cmd *cmd);
-void	checking_redirections(t_cmd *cmd, t_execute *exec, int end);
+void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env);
+char ** linked_env_to_strings(t_env *node);
 
 
 int	get_fd(char *name, char mode, int fileno);

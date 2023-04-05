@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/04 22:53:22 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:35:12 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,14 @@ int	get_new_node_exec(t_token *token, t_env **node)
 int	create_new_env(t_env **node, char *content)
 {
 	char	**string;
-	// t_env	*new;
+	t_env	*new;
 
 	string = ft_split(content, '=');
 	if (string[1] == NULL)
 	{
 		return (free(string[0]), free(string[1]), free(string), 1);
 	}
-	/* new =  */new_node(string, node);
+	new = new_node(string, node);
 	free(string[0]);
 	free(string[1]);
 	free(string);

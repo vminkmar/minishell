@@ -6,20 +6,20 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:07:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/28 18:15:39 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:23:08 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int count_pipes(t_cmd *cmd)
+int	count_pipes(t_cmd *cmd)
 {
-	t_cmd 	*tmp;
+	t_cmd	*tmp;
 	int		counter;
 
 	counter = 0;
 	tmp = cmd;
-	while(tmp->next != NULL)
+	while (tmp->next != NULL)
 	{
 		counter ++;
 		tmp = tmp->next;
@@ -27,23 +27,14 @@ int count_pipes(t_cmd *cmd)
 	return (counter);
 }
 
-int get_token_count(t_cmd *cmd, int end)
+int	get_token_count(t_cmd *cmd)
 {
-	t_cmd 	*tmp;
 	t_token	*token;
 	int		counter;
-	int		start;
 
-	start = 0;
 	counter = 0;
-	tmp = cmd;
-	while(start < end)
-	{
-		start ++;
-		tmp = tmp->next;
-	}
-	token = tmp->head;
-	while(token != NULL)
+	token = cmd->head;
+	while (token != NULL)
 	{
 		counter ++;
 		token = token->next;
@@ -54,21 +45,16 @@ int get_token_count(t_cmd *cmd, int end)
 char	***linked_to_char(t_cmd *cmd, t_execute exec)
 {
 	t_token		*token;
-	t_cmd		*tmp;
 	int			i;
 	int			j;
 	int			tokens;
 
-	tmp = cmd;
 	i = 0;
-	if (exec.pipes == 0)
-		exec.commands = malloc(sizeof(char**) * 2);
-	else
-		exec.commands = malloc(sizeof(char**) * (exec.pipes + 2));
-	while (tmp != NULL)
+	exec.commands = malloc(sizeof(char **) * (exec.pipes + 2));
+	while (cmd != NULL)
 	{
-		token = tmp->head;
-		tokens = get_token_count(cmd, i);
+		token = cmd->head;
+		tokens = get_token_count(cmd);
 		exec.commands[i] = malloc(sizeof(char *) * (tokens + 1));
 		j = 0;
 		while (token != NULL)
@@ -79,8 +65,47 @@ char	***linked_to_char(t_cmd *cmd, t_execute exec)
 		}
 		exec.commands[i][j] = NULL;
 		i ++;
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
 	exec.commands[i] = NULL;
 	return (exec.commands);
+}
+
+int	get_size(t_env *node)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = node;
+	while (tmp != NULL)
+	{
+		i ++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+char	**linked_env_to_strings(t_env *node)
+{
+	int		i;
+	char	**str;
+	char	*new;
+	int		size;
+
+	size = get_size(node);
+	i = 0;
+	str = malloc(sizeof(char *) * (size + 1));
+	while (node != NULL)
+	{
+		str[i] = ft_strdup(node->name);
+		new = sl_strjoin(str[i], "=");
+		new = sl_strjoin(str[i], ft_strdup(node->value));
+		str[i] = ft_strdup(new);
+		free(new);
+		i++;
+		node = node->next;
+	}
+	str[i] = NULL;
+	return (str);
 }

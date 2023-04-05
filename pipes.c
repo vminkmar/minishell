@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 17:38:23 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 18:49:44 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 	exec->pids = malloc(sizeof(pid_t) * (exec->pipes + 1));
 	while (exec->pipe_num < exec->pipes + 1)
 	{
-		checking_redirections(cmd, exec, exec->pipe_num);
+		checking_redirections(cmd, exec, exec->pipe_num, node);
 		pipe(exec->pipes_fd);
 		if (exec->pipe_num == exec->pipes)
 			execute_last(exec, env, node, cmd);	
@@ -87,7 +87,8 @@ int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 		exit(1);
 	}
 	else
-	{
+	{	
+		exec->pids[exec->pipe_num] = pid;
 		if (exec->pipes_fd[1] > 2)
 			close(exec->pipes_fd[1]);
 		if (exec->pipes_fd[0] > 2)

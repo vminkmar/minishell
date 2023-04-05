@@ -6,54 +6,21 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 17:38:02 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 23:29:08 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void init_vars()
+void	init_vars(void)
 {
-	struct termios term_settings;
+	struct termios	term_settings;
 
+	g_status = 0;
 	tcgetattr(STDIN_FILENO, &term_settings);
 	term_settings.c_cflag &= ~(IEXTEN | ECHOCTL);
-   	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
-	g_status = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
-
-
-
-
-
-void print_linked_list(t_cmd *cmd)
-{
-    while (cmd)
-    {
-        t_token *token = cmd->head;
-        while (token)
-        {
-            ft_putstr_fd(token->content, 2);
-			ft_putstr_fd("\n", 2);
-			// printf("%u\n", token->type);
-			// printf("%u\n", token->argument);
-            token = token->next;
-        }
-		cmd = cmd->next;
-		printf("\n\n");
-    }
-}
-
-// void	print_linked_list(t_env *node)
-// {
-//     while (node)
-//     {
-//             printf("%s=%s\n", node->name, node->value);
-//             node = node->next;
-//     }
-// }
-
-
 
 void	end_shell(t_env **node)
 {
@@ -64,11 +31,11 @@ void	end_shell(t_env **node)
 		printf("\n");
 		printf("exit");
 	}
-	exit(0);
+	exit(g_status);
 }
 
-char *get_input(char *input, t_env *node)
-{;
+char	*get_input(char *input, t_env *node)
+{
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
@@ -97,22 +64,19 @@ int	main(int argc, char *argv[], char *env[])
 	cmd = NULL;
 	node = NULL;
 	input = NULL;
-	set_env(env, &node);
+	if (set_env(env, &node) == EXIT_FAILURE)
+		exit(1);
 	init_vars();
 	while (1)
 	{
 		input = get_input(input, node);
 		if (input == NULL)
-		{
 			continue ;
-		}
-		// input = "/ls";
 		create_first_cmd(&cmd);
-		if(connector(input, cmd, node) == 1)
+		if (connector(input, cmd, node) == 1)
 			cmd = free_list_error(&cmd);
-		// print_linked_list(cmd);
 		free(input);
- 		free_list(cmd);
+		free_list(cmd);
 	}
 	return (g_status);
 }

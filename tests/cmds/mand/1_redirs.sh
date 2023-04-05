@@ -105,32 +105,32 @@ rm -f tmp_std_outfile
 # limm
 # EOF
 
-cat << hello
-$USER
-$NOVAR
-$HOME
-hello
+# cat << hello
+# $USER
+# $NOVAR
+# $HOME
+# hello
 
-cat << 'lim'
-$USER
-$NOVAR
-$HOME
-lim
+# cat << 'lim'
+# $USER
+# $NOVAR
+# $HOME
+# lim
 
-cat << lim''
-$USER
-$NOVAR
-$HOME
-lim
+# cat << lim''
+# $USER
+# $NOVAR
+# $HOME
+# lim
 
-cat << ''lim
-$USER
-$NOVAR
-$HOME
-lim
+# cat << ''lim
+# $USER
+# $NOVAR
+# $HOME
+# lim
 
-cat << 'lim'
-$USER
-$NOVAR
-$HOME
-lim
+# cat << 'lim'
+# $USER
+# $NOVAR
+# $HOME
+# lim

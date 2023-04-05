@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 16:23:01 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:26:19 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	add_node(char *a[], t_env **node)
 {
 	t_env	*new_node;
 	t_env	*tmp;
-	
+
 	tmp = *node;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->name, a[0]) == 0)  
+		if (ft_strcmp(tmp->name, a[0]) == 0)
 		{
 			tmp->value = ft_strdup(a[1]);
 			return ;
@@ -28,7 +28,7 @@ void	add_node(char *a[], t_env **node)
 		tmp = tmp->next;
 	}
 	new_node = malloc(sizeof(t_env));
-	if (node == NULL)
+	if (new_node == NULL)
 	{
 		exit(1); //error_management
 	}
@@ -69,10 +69,7 @@ void	get_new_node(t_token *token, t_env **node)
 	{
 		add_node(&token->content, node);
 	}
-	//error handling if name == NULL
 }
-
-
 
 void	execute_env(t_env *node)
 {

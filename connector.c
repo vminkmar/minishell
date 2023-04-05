@@ -6,52 +6,13 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 17:28:29 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 21:37:32 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int get_size(t_env *node)
-{
-	int i;
-	t_env *tmp;
-
-	i = 0;
-	tmp = node;
-	while(tmp != NULL)
-	{
-		i ++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-char ** linked_env_to_strings(t_env *node)
-{
-	int		i;
-	char	**str;
-	char	*new;
-	int		size;
-
-	size = get_size(node);
-	i = 0;
-	str = malloc(sizeof(char *) * (size + 1));
-	while(node != NULL)
-	{
-		str[i] = ft_strdup(node->name);
-		new = sl_strjoin(str[i], "=");
-		new = sl_strjoin(str[i], ft_strdup(node->value));
-		str[i] = ft_strdup(new);
-		free(new);
-		i++;
-		node = node->next;
-	}
-	str[i] = NULL;
-	return (str);
-}
-
-int look_out_for_command(t_cmd *cmd)
+int	look_out_for_command(t_cmd *cmd)
 {
 	if (ft_strcmp("echo", cmd->head->content) == 0)
 		return (0);
@@ -70,26 +31,9 @@ int look_out_for_command(t_cmd *cmd)
 	return (1);
 }
 
-
-void free_env_strings(char **env)
+void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env)
 {
-	int i;
-
-	i = 0;
-	if (env != NULL)
-	{
-		while(env[i] != NULL)
-		{
-			free(env[i]);
-			i ++;
-		}
-		free (env);
-	}
-}
-
-void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
-{
-	t_token *token;
+	t_token	*token;
 	int		out;
 	int		in;
 	int		counter;
@@ -110,10 +54,10 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 			if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
 			{
 				token = token->next;
-				exec->in = redirect(here_doc(token->next->content, 1), STDIN_FILENO, 'n');
+				exec->in = redirect(here_doc(token->next->content, 1, env), STDIN_FILENO, 'n');
 			}
 			else if (ft_strcmp(token->content, "<<") == 0)
-				exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
+				exec->in = redirect(here_doc(token->next->content, 0, env), STDIN_FILENO, 'n');
 			else if (ft_strcmp(token->content, "<") == 0)
 			{
 				if(exec->in != STDIN_FILENO)
@@ -137,59 +81,6 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
 	}
 }
 
-/* 
-void	checking_redirections(t_cmd *cmd, t_execute *exec, int end)
-{
-	t_token *token;
-	int		out;
-	int		in;
-	int		counter;
-	
-	counter = 0;
-	exec->in = STDIN_FILENO;
-	exec->out = STDOUT_FILENO;
-	while(counter < end && cmd != NULL)
-	{
-		token = cmd->head;
-		while (token != NULL)
-		{
-			if (token->argument == REDI)
-			{
-				if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
-				{
-					token = token->next;
-					exec->in = redirect(here_doc(token->next->content, 1), STDIN_FILENO, 'n');
-				}
-				else if (ft_strcmp(token->content, "<<") == 0)
-					exec->in = redirect(here_doc(token->next->content, 0), STDIN_FILENO, 'n');
-				else if (ft_strcmp(token->content, "<") == 0)
-				{
-					if(exec->in != STDIN_FILENO)
-						close(in);
-					in = redirect(token->next->content, STDIN_FILENO, 'n');
-					exec->in = in;
-				}
-				else
-				{
-					if (exec->out != STDOUT_FILENO)
-						close(out);
-					if (ft_strcmp(token->content, ">") == 0)
-						out = redirect(token->next->content, STDOUT_FILENO, 'n');
-					else if (ft_strcmp(token->content, ">>") == 0)
-						out = redirect(token->next->content, STDOUT_FILENO, 'a');
-					exec->out = out;
-				}
-				token = token->next;
-			}
-			token = token->next;
-		}
-		cmd = cmd->next;
-		counter ++;
-	}
-}
-
- */
-
 int look_out_for_builtin(t_cmd *cmd)
 {
 	if (ft_strcmp("unset", cmd->head->content) == 0)
@@ -207,8 +98,8 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 {
 	t_execute	exec;
 	char		**env;
+
 	exec.pipe_num = 0;
-	
 	if (lexer(input, cmd) == 1)
 		return (1);
 	cmd = parse_stuff(cmd);

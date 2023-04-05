@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/05 17:37:41 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 18:58:05 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void    ft_exec(char *argv[], char **env, t_env *node)
     free(temp);
     ft_free(path_arr);
     print_error("There is no such executable!\n");
+	exit (127);
 }
 
 void    found_it(char *argv[], char *joined, char *path_arr[], char **env)

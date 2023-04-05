@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:09:30 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/01 17:35:33 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/05 22:44:15 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,6 @@ int	check_for_options(t_token *token)
 	return (1);
 }
 
-int check_redirections(char *str)
-{
-	if (ft_strcmp(">", str) == 0 
-		|| ft_strcmp(">>", str) == 0
-		|| ft_strcmp("<", str) == 0
-		|| ft_strcmp("<<", str) == 0)
-		return (0);
-	return (1);
-}
-
-
 int	check_for_variables(t_token *token)
 {
 	if (check_redirections(token->content) == 0)
@@ -46,7 +35,7 @@ int	check_for_variables(t_token *token)
 		if (token->next != NULL)
 		{
 			token = token->next;
-			if(check_redirections(token->content) == 1)
+			if (check_redirections(token->content) == 1)
 				token->argument = FILENAME;
 			else
 				return (-1);
@@ -67,6 +56,7 @@ int	check_command(t_cmd *cmd)
 	if (cmd->head == NULL)
 	{
 		print_error("syntax error near unexpected token");
+		g_status = 2;
 		return (1);
 	}
 	if (ft_strcmp(">", cmd->head->content) == 0
@@ -93,15 +83,6 @@ int	check_token(t_token *token)
 	return (0);
 }
 
-// int check_syntax(t_token *token)
-// {
-// 	while(token != NULL)
-// 	{
-		
-		
-// 	}
-// }
-
 int	check_token_and_variables(t_token *tmp)
 {
 	while (tmp != NULL)
@@ -120,13 +101,8 @@ int	check_token_and_variables(t_token *tmp)
 				return (1);
 			}
 		}
-		// if (check_syntax(tmp) == 1)
-		// 	return (1);
 		if (check_for_variables(tmp) == -1)
-		{
-			print_error("syntax error near unexpected token\n");
-			return (1);
-		}
+			return (print_error("syntax error near unexpected token\n"), 1);
 		if (tmp->next == NULL)
 			break ;
 		tmp = tmp->next;
