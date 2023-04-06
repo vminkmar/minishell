@@ -1,3 +1,6 @@
 *.o
 minishell
 /LeakSanitzer
+/minishell.dSYM
+/.vscode
+/dwnlds
