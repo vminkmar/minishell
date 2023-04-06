@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:36:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 08:00:46 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:08:15 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,19 @@ void	free_all(t_env **node)
 			free(temp);
 		}
 	}
+}
+
+void	ft_free(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv == NULL)
+		return ;
+	while (argv[i] != NULL)
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
 }
