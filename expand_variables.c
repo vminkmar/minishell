@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:53:48 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:59:58 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 	char	*new_content;
 	char	*new;
 	int		flag;
+	char	*temp;
 
 	flag = 0;
 	new_content = NULL;
 	new = ft_strdup("");
 	new_content = remove_dq(content, i);
-	new = sl_strjoin_free(new, new_content, 3);
+	new = sl_strjoin_free(new, new_content, 1);
 	*i = *j + 1;
 	while (content[*i] != '\"' && content[*i] != '\0')
 	{
@@ -51,8 +52,12 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 	}
 	if (flag == 1)
 	{
+		temp = new;
 		new = delete_var(new, (ft_strlen(new) - ft_strlen(new_content)));
+		free(temp);
+		temp = new_content;
 		new_content = expand_var(&content[*j + 1], env, *i - 1 - *j);
+		free(temp);
 		new = sl_strjoin_free(new, new_content, 3);
 	}
 	content = ft_strdup(new);

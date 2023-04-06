@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:20:29 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:45:41 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:56:33 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*remove_dq(char *str, int *i)
 	char	*dest;
 	int		j;
 
-	dest = malloc(ft_strlen(str) + 1);
+	dest = malloc((ft_strlen(str) + 1) * sizeof(char));
 	if (dest == NULL)
 	{
 		printf("memory allocation failed");

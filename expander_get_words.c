@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 00:06:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 18:27:54 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:33:20 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**get_words(char *str, int length, int counter, t_sup *sup)
 	sup->words = 0;
 	sup->i = 0;
 	sup->j = 0;
-	sup->value = malloc((counter + 1) * sizeof(char *));
+	sup->value = malloc((counter + 2) * sizeof(char *));
 	if (sup->value == NULL)
 	{
 		printf("memory allocation failed");

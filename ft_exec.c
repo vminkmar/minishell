@@ -6,14 +6,13 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/06 18:28:17 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:08:56 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	found_it(char *argv[], char *joined, char *path_arr[], char **env);
-void	ft_free(char **argv);
 
 void	ft_free(char **argv)
 {
