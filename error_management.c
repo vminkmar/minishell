@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:36:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 22:08:15 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:32:35 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	free_list(t_cmd *cmd)
 	}
 }
 
-void	put_error(char c)
-{
-	write(2, &c, 1);
-}
-
 void	print_error(char *str)
 {
 	int	end;
@@ -46,7 +41,7 @@ void	print_error(char *str)
 	end = 0;
 	while (str[end] != '\0')
 	{
-		put_error(str[end]);
+		write(2, &str[end], 1);
 		end ++;
 	}
 }
@@ -82,4 +77,12 @@ void	ft_free(char **argv)
 		i++;
 	}
 	free(argv);
+}
+
+void	free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node)
+{
+	free_exec(exec.commands);
+	free_env_strings(env);
+	free_all(&node);
+	free_list(cmd);
 }

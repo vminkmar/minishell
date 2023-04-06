@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:28:28 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:38:13 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,11 @@ char	*delete_var(char *content, int length)
 	return (string);
 }
 
-char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
+int	look_for_dollar(char *content, int *i)
 {
-	char	*new_content;
-	char	*new;
-	int		flag;
-	char	*temp;
+	int	flag;
 
 	flag = 0;
-	new_content = NULL;
-	new = ft_strdup("");
-	new_content = remove_dq(content, i);
-	new = sl_strjoin_free(new, new_content, 1);
-	*i = *j + 1;
 	while (content[*i] != '\"' && content[*i] != '\0')
 	{
 		if ((content[*i] == '$' && is_valid(content[*i + 1]) == 0)
@@ -50,6 +42,22 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 			flag = 1;
 		(*i)++;
 	}
+	return (flag);
+}
+
+char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
+{
+	char	*new_content;
+	char	*new;
+	int		flag;
+	char	*temp;
+
+	new_content = NULL;
+	new = ft_strdup("");
+	new_content = remove_dq(content, i);
+	new = sl_strjoin_free(new, new_content, 1);
+	*i = *j + 1;
+	flag = look_for_dollar(content, i);
 	if (flag == 1)
 	{
 		temp = new;
