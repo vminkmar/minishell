@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:08:21 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:32:53 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ char	*sl_strjoin(char *s1, char *s2);
 char	*sl_strjoin_free(char *s1, char *s2, char how_many);
 
 //error_management
+void	ft_free(char **argv);
 void	free_cmd_token(t_cmd **cmd);
 void	free_all(t_env **node);
 void	free_list(t_cmd *cmd);

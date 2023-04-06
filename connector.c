@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 16:17:29 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:35:16 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,42 @@ int	look_out_for_command(t_cmd *cmd)
 	return (1);
 }
 
+void	which_redir(t_token **t, t_execute *exec, t_env **env, int *fds)
+{
+	if (ft_strcmp((*t)->content, "<<") == 0 && *((*t)->next->content) == '-')
+	{
+		*t = (*t)->next;
+		exec->in = redirect(here_doc((*t)->next->content, 1, *env), 0, 'n');
+	}
+	else if (ft_strcmp((*t)->content, "<<") == 0)
+		exec->in = redirect(here_doc((*t)->next->content, 0, *env), 0, 'n');
+	else if (ft_strcmp((*t)->content, "<") == 0)
+	{
+		if (exec->in != STDIN_FILENO && fds[0] != -10)
+			close(fds[0]);
+		fds[0] = redirect((*t)->next->content, STDIN_FILENO, 'n');
+		exec->in = fds[0];
+	}
+	else
+	{
+		if (exec->out != STDOUT_FILENO && fds[1] != -10)
+			close(fds[1]);
+		if (ft_strcmp((*t)->content, ">") == 0)
+			fds[1] = redirect((*t)->next->content, STDOUT_FILENO, 'n');
+		else if (ft_strcmp((*t)->content, ">>") == 0)
+			fds[1] = redirect((*t)->next->content, STDOUT_FILENO, 'a');
+		exec->out = fds[1];
+	}
+}
+
 void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env)
 {
 	t_token	*token;
-	int		out;
-	int		in;
 	int		counter;
+	int		fds[2];
 
+	fds[0] = -10;
+	fds[1] = -10;
 	exec->in = STDIN_FILENO;
 	exec->out = STDOUT_FILENO;
 	counter = 0;
@@ -51,37 +80,14 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env)
 	{
 		if (token->argument == REDI)
 		{
-			if (ft_strcmp(token->content, "<<") == 0 && *(token->next->content) == '-')
-			{
-				token = token->next;
-				exec->in = redirect(here_doc(token->next->content, 1, env), STDIN_FILENO, 'n');
-			}
-			else if (ft_strcmp(token->content, "<<") == 0)
-				exec->in = redirect(here_doc(token->next->content, 0, env), STDIN_FILENO, 'n');
-			else if (ft_strcmp(token->content, "<") == 0)
-			{
-				if(exec->in != STDIN_FILENO)
-					close(in);
-				in = redirect(token->next->content, STDIN_FILENO, 'n');
-				exec->in = in;
-			}
-			else
-			{
-				if (exec->out != STDOUT_FILENO)
-					close(out);
-				if (ft_strcmp(token->content, ">") == 0)
-					out = redirect(token->next->content, STDOUT_FILENO, 'n');
-				else if (ft_strcmp(token->content, ">>") == 0)
-					out = redirect(token->next->content, STDOUT_FILENO, 'a');
-				exec->out = out;
-			}
+			which_redir(&token, exec, &env, fds);
 			token = token->next;
 		}
 		token = token->next;
 	}
 }
 
-int look_out_for_builtin(t_cmd *cmd)
+int	look_out_for_builtin(t_cmd *cmd)
 {
 	if (ft_strcmp("unset", cmd->head->content) == 0)
 		return (0);
@@ -121,7 +127,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 			ft_pipe(cmd, node, &exec, env);
 	}
 	else
- 		ft_pipe(cmd, node, &exec, env);
+		ft_pipe(cmd, node, &exec, env);
 	free_exec(exec.commands);
 	free_env_strings(env);
 	return (0);

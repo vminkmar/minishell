@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:38:34 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 13:07:23 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:31:42 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ char	*sl_strjoin_free(char *s1, char *s2, char how_many)
 	int		j;
 
 	if (s1 == NULL)
-		return (ft_strdup(s1));
-	if (s2 == NULL)
 		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
 	a = stupid_shit(s1, s2, &i, &j);
 	i--;
 	while (s1[++i] != '\0')

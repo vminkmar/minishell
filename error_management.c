@@ -6,11 +6,26 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:36:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 08:00:46 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:32:39 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv == NULL)
+		return ;
+	while (argv[i] != NULL)
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
+}
 
 void	free_list(t_cmd *cmd)
 {
