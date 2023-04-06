@@ -48,7 +48,8 @@ norminette:
 					lexer_check_quotes.c lexer_whitespaces_words.c parser_quotes.c parser_utils.c parser_redirections.c\
 					parser_tokens.c expander_quotes.c expander_var.c utils_utils.c ft_exec.c export.c pipes.c redirections.c\
 					here_doc.c connector_free.c expand_variables.c expand_variables_utils.c expander_checks_dollar.c\
-					expander_get_words.c expander_var_utils.c export_utils.c minishell.h pipes_utils.c compare_cmd.c buildins_utils.c\
+					expander_get_words.c expander_var_utils.c export_utils.c pipes_utils.c compare_cmd.c buildins_utils.c\
+					execute_echo.c
 
 
 clean:
