@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:55:25 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:21:18 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_last_utils(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 		counter ++;
 	}
 	if (look_out_for_command(cmd) == 0)
-		compare_cmd(cmd, node);
+		compare_cmd(cmd, node, *exec, env);
 	else
 	{
 		ft_exec(exec->commands[exec->pipe_num], env, node);
@@ -100,7 +100,7 @@ void	execute_utils(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 		counter ++;
 	}
 	if (look_out_for_command(cmd) == 0)
-		compare_cmd(cmd, node);
+		compare_cmd(cmd, node, *exec, env);
 	else
 		ft_exec(exec->commands[exec->pipe_num], env, node);
 	exit(1);

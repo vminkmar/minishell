@@ -6,37 +6,45 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 18:57:07 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:19:02 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_exit_utils(t_token *token)
+void	execute_exit_utils(t_cmd *cmd, t_env *node, char **env, t_execute exec)
 {
+	t_token *token;
+
+	token = cmd->head;
 	if (check_for_numbers(token->next->content) == 0)
 	{
 		g_status = ft_atoi(token->next->content);
 		g_status = g_status % 256;
 		if (token->next->next != NULL)
 			print_error("bash: exit: too many arguments\n");
+		free_all_stuff(cmd, exec, env, node);
 		exit (g_status);
 	}
 	else
 	{
 		g_status = 255;
 		print_error("bash: exit: numeric Argument required\n");
+		free_all_stuff(cmd, exec, env, node);
 		exit(g_status);
 	}
 }
 
-int	execute_exit(t_cmd *cmd)
+int	execute_exit(t_cmd *cmd, t_env *node, char **env, t_execute exec)
 {
 	t_token	*token;
 
 	token = cmd->head;
 	if (token->next == NULL)
+	{
+		free_all_stuff(cmd, exec, env, node);
 		exit(g_status);
+	}
 	if (token->next->next != NULL)
 	{
 		print_error("bash: exit: too many arguments\n");
@@ -44,7 +52,7 @@ int	execute_exit(t_cmd *cmd)
 		return (1);
 	}
 	else
-		execute_exit_utils(token);
+		execute_exit_utils(cmd, node, env, exec);
 	return (0);
 }
 

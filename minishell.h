@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 20:09:06 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:19:32 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int		is_valid_export(char *str);
 int		execute_pwd(void);
 void	execute_env(t_env *node);
 int		rest(char *str);
-int		compare_cmd(t_cmd *cmd, t_env *node);
-int		execute_exit(t_cmd *cmd);
+int		compare_cmd(t_cmd *cmd, t_env *node, t_execute exec, char **env);
+int		execute_exit(t_cmd *cmd, t_env *node, char **env, t_execute exec);
 void	execute_echo(t_cmd *cmd);
 int		execute_cd(t_cmd *cmd);
 int		execute_unset(t_cmd *cmd, t_env **node);
@@ -242,9 +242,10 @@ void	free_env_strings(char **env);
 int		connector(char *input, t_cmd *cmd, t_env *env);
 char	***linked_to_char(t_cmd *cmd, t_execute exec);
 int		get_command(t_cmd *cmd, t_env *node, t_execute exec, char **env);
-int		compare_cmd(t_cmd *cmd, t_env *node);
+int		compare_cmd(t_cmd *cmd, t_env *node, t_execute exec, char **env);
 int		look_out_for_command(t_cmd *cmd);
 char	*here_doc(char *eof, char suppress, t_env *env);
+void free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node);
 
 //executor
 void	executor(t_execute *exec);

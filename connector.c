@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   connector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 21:18:42 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:16:53 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node)
+{
+	free_exec(exec.commands);
+	free_env_strings(env);
+	free_all(&node);
+	free_list(cmd);
+}
 
 int	look_out_for_command(t_cmd *cmd)
 {
@@ -120,7 +128,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 	{
 		if (look_out_for_builtin(cmd) == 0)
 		{
-			if (compare_cmd(cmd, node) == 1)
+			if (compare_cmd(cmd, node, exec, env) == 1)
 				return (1);
 		}
 		else
