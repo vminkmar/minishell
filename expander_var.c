@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:23:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:40:20 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:43:17 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,19 @@ int	get_number(char *str, int length)
 	return (counter);
 }
 
+void free_value(char **value)
+{
+	int i;
+
+	i = 0;
+	while(value[i] != NULL)
+	{
+		free(value[i]);
+		i ++;
+	}
+	free(value);
+}
+
 char	*expand_var(char *str, t_env *env, int length)
 {
 	int		counter;
@@ -79,8 +92,14 @@ char	*expand_var(char *str, t_env *env, int length)
 	i = 0;
 	j = 0;
 	counter = get_number(str, length);
+	value = malloc((counter + 1) * sizeof(char *));
+	if (value == NULL)
+	{
+		print_error("memory allocation failed");
+		return (NULL);
+	}
 	value = get_words(str, length, counter, &sup);
 	str = change_value(value, env, i, j);
-	free(value);
+	free_value(value);
 	return (str);
 }

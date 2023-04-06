@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:13:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 01:17:40 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:13:00 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ int	rest(char *str)
 		return (0);
 	return (1);
 }
+
+// int compare_cdm_utils(t_cmd *cmd, t_env *node)
+// {
+	
+//}
 
 int	compare_cmd(t_cmd *cmd, t_env *node)
 {

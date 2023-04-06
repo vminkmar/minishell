@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_get_words.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 00:06:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 13:35:20 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:14:21 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

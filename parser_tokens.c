@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:09:30 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 12:58:58 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:33:25 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,10 @@ int	check_token_and_variables(t_token *tmp)
 		{
 			tmp = tmp->next;
 			if (check_token(tmp) == 1)
-			{
-				print_error("check for unclosed quotes\n");
-				return (1);
-			}
+				return (print_error("check for unclosed quotes\n"), 1);
 		}
 		if (check_for_variables(tmp) == -1)
-			return (print_error("syntax error near unexpected token\n"), 1);
+			return (print_error("syntax error near unexpected token\n"), g_status = 2, 1);
 		if (tmp->next == NULL)
 			break ;
 		tmp = tmp->next;

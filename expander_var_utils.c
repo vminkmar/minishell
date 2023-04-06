@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_var_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 22:10:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:35:04 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:46:30 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*change_value_util(char **str, t_env *env, int *i)
 	flag = 0;
 	if (change_value_check_dollar(str, i) == 0)
 		return (str[*i]);
+	// dollar = malloc(ft_strlen(str[*i]));
 	dollar = remove_dollar(str[*i]);
 	while (node != NULL)
 	{

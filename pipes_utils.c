@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 00:56:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 01:00:05 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:29:29 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,6 @@ void	wait_all(t_execute *exec)
 		g_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		g_status = WTERMSIG(status) + 128;
+	free(exec->pids);
+
 }

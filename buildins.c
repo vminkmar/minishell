@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 01:17:17 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:38:42 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	execute_exit(t_cmd *cmd)
 		exit(g_status);
 	if (token->next->next != NULL)
 	{
-		print_error("bash: exit: too many arguments");
+		print_error("bash: exit: too many arguments\n");
 		g_status = 1;
 		return (1);
 	}
@@ -29,15 +29,18 @@ int	execute_exit(t_cmd *cmd)
 	{
 		if (check_for_numbers(token->next->content) == 0)
 		{
-			g_status = ft_atoi(token->content);
-			if (g_status > 255 || g_status < 0)
-				g_status = 255;
+			g_status = ft_atoi(token->next->content);
+			g_status = g_status % 256;
 			if (token->next->next != NULL)
-				print_error("bash: exit: too many arguments");
+				print_error("bash: exit: too many arguments\n");
 			exit (g_status);
 		}
 		else
+		{
+			g_status = 255;
+			print_error("bash: exit: numeric Argument required\n");
 			exit(g_status);
+		}
 	}
 }
 
@@ -81,6 +84,7 @@ void	execute_echo(t_cmd *cmd)
 			token = token->next;
 		}
 	}
+	g_status = 0;
 }
 
 int	execute_cd(t_cmd *cmd)
@@ -113,11 +117,12 @@ int	execute_unset(t_cmd *cmd, t_env **node)
 	token = token->next;
 	while (token && token->argument == ARGUMENT)
 	{	
-		if (is_valid_export(token->content) == 1)
+		if (is_valid_export(token->content) == 1 || ft_strcmp(token->content, "\0") == 0)
 		{
 			print_error("unset: ");
 			print_error(token->content);
 			print_error(" is not a valid identifier\n");
+			g_status = 1;
 			return (1);
 		}
 		tmp = *node;

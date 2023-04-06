@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:21:11 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 06:45:08 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:17:21 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	lexer(char *input, t_cmd *cmd)
 	con.k = 0;
 	con.status = NORMAL;
 	str = ft_strtrim(input, " ");
-	free(input);
-	input = str;
+	input = ft_strdup(str);
+	free(str);
 	while (input[con.i])
 	{
 		tmp = check_for_pipes(cmd);
