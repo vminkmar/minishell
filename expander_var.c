@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:23:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:14 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:03:04 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,6 @@ int	get_number(char *str, int length)
 	return (counter);
 }
 
-void free_value(char **value)
-{
-	int i;
-
-	i = 0;
-	while(value[i] != NULL)
-	{
-		free(value[i]);
-		i ++;
-	}
-	free(value);
-}
-
 char	*expand_var(char *str, t_env *env, int length)
 {
 	int		counter;
@@ -100,6 +87,5 @@ char	*expand_var(char *str, t_env *env, int length)
 	}
 	value = get_words(str, length, counter, &sup);
 	str = change_value(value, env, i, j);
-	free_value(value);
 	return (str);
 }
