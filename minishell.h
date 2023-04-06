@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 19:32:53 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:25:49 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ void	free_cmd_token(t_cmd **cmd);
 void	free_all(t_env **node);
 void	free_list(t_cmd *cmd);
 void	print_error(char *str);
+void	ft_free(char **argv);
 
 // lexer
 int		lexer(char *input, t_cmd *cmd);

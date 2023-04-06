@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:37:04 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:27 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:07:40 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ char	*expand_rest(char *content, int *i, int *j)
 	return (content);
 }
 
-char	*expand_variables(char *content, t_env *env)
+char	*expand_variables(char *content, t_env *env, int i)
 {
-	int		i;
 	int		j;
 	char	*new_token;
 
-	i = 0;
 	j = 0;
 	new_token = ft_strdup("");
 	while (content[i] != '\0')
@@ -48,11 +46,14 @@ char	*expand_variables(char *content, t_env *env)
 					expand_variables_quoted(content, env, &i, &j), 3);
 		}
 		if (content[i] == '\'')
-			new_token = sl_strjoin_free(new_token, expand_sq(content, &i, &j), 3);
+			new_token = sl_strjoin_free(new_token,
+					expand_sq(content, &i, &j), 3);
 		if (content[i] == '$')
-			new_token = sl_strjoin_free(new_token, expand_variables_unquoted(content, env, &i, &j), 3);
+			new_token = sl_strjoin_free(new_token,
+					expand_variables_unquoted(content, env, &i, &j), 3);
 		if (content[i] != '\'' && content[i] != '\"' && content[i] != '\0')
-			new_token = sl_strjoin_free(new_token, expand_rest(content, &i, &j), 3);
+			new_token = sl_strjoin_free(new_token,
+					expand_rest(content, &i, &j), 3);
 	}
 	return (new_token);
 }
@@ -61,14 +62,16 @@ int	expander(t_cmd *cmd, t_env *env)
 {
 	t_token	*token;
 	char	*tmp;
+	int		i;
 
+	i = 0;
 	while (cmd != NULL)
 	{
 		token = cmd->head;
 		while (token != NULL)
 		{
 			tmp = token->content;
-			token->content = expand_variables(token->content, env);
+			token->content = expand_variables(token->content, env, i);
 			free(tmp);
 			token = token->next;
 		}

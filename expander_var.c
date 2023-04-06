@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:23:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 18:03:04 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:00:48 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,6 @@ char	*expand_var(char *str, t_env *env, int length)
 	i = 0;
 	j = 0;
 	counter = get_number(str, length);
-	value = malloc((counter + 1) * sizeof(char *));
-	if (value == NULL)
-	{
-		print_error("memory allocation failed");
-		return (NULL);
-	}
 	value = get_words(str, length, counter, &sup);
 	str = change_value(value, env, i, j);
 	return (str);

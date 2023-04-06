@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 21:33:12 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:25:40 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char *argv[], char *env[])
 		input = get_input(input, node);
 		if (input == NULL)
 			continue ;
-		// input = "cd "$PWD/file_tests"";
+		// input = "cd \"$PWD/file_tests\"";
 		create_first_cmd(&cmd);
 		connector(input, cmd, node);
 		free(input);
@@ -80,5 +80,6 @@ int	main(int argc, char *argv[], char *env[])
 		cmd = NULL;
 	}
 	free_all(&node);
+	//system("leaks minishell");
 	return (g_status);
 }

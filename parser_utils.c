@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:04:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/28 18:10:55 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:40:36 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*make_it_small(char *str)
 	int		i;
 	char	*new;
 
-	new = malloc(sizeof(char) * ft_strlen(str));
+	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	i = 0;
 	while (str[i] != '\0')
 	{
