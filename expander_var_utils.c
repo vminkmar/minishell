@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 22:10:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 22:02:19 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:20:35 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	change_value_check_dollar(char **str, int *i)
 	int		j;
 	int		k;
 	char	*dollar;
+	char	*temp;
 
 	j = 0;
 	k = 0;
@@ -24,10 +25,12 @@ int	change_value_check_dollar(char **str, int *i)
 	{
 		str[*i] = remove_dollar(str[*i]);
 		k = ft_strlen(str[*i]);
+		temp = str[*i];
 		if (str[*i][0] == '\'')
 			str[*i] = expand_sq(str[*i], &j, &k);
 		if (str[*i][0] == '\"')
 			str[*i] = remove_dq(str[*i], &j);
+		free(temp);
 		return (0);
 	}
 	if (check_after_dollar(str[*i]) == 1)
@@ -58,7 +61,6 @@ char	*change_value_util(char **str, t_env *env, int *i)
 		{
 			flag = 1;
 			str[*i] = remove_variable(node->value);
-			free(dollar);
 			break ;
 		}
 		node = node->next;
@@ -67,7 +69,7 @@ char	*change_value_util(char **str, t_env *env, int *i)
 	{
 		str[*i] = ft_strdup("");
 	}
-	return (str[*i]);
+	return (free(dollar), str[*i]);
 }
 
 char	*change_value(char **str, t_env *env, int i, int j)

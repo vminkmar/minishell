@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 22:05:19 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 20:31:00 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:17:15 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*remove_dollar(char *str)
 	char	*new;
 
 	flag = 0;
-	new = malloc(ft_strlen(str));
+	new = malloc(ft_strlen(str) * sizeof(char));
 	j = 0;
 	i = 0;
 	while (str[i] != '\0')
