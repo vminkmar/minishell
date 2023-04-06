@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:26:35 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 07:51:49 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:41:56 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	lexer_whitespace(char *input, t_cmd *cmd, t_con *con)
 	{
 		j = ft_substr(input, con->k, con->i - con->k);
 		add_token(cmd, j);
+		j = NULL;
 		con->i++;
 		con->k = con->i;
 		return (0);

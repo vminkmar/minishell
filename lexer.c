@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:21:11 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 06:45:08 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:43:01 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,13 @@ int	lexer_two(char *input, t_cmd *tmp, t_con *con)
 
 int	lexer(char *input, t_cmd *cmd)
 {
-	char	*str;
 	t_con	con;
 	t_cmd	*tmp;
 
 	con.i = 0;
 	con.k = 0;
 	con.status = NORMAL;
-	str = ft_strtrim(input, " ");
-	free(input);
-	input = str;
+	input = ft_strtrim(input, " ");
 	while (input[con.i])
 	{
 		tmp = check_for_pipes(cmd);

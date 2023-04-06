@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:47:36 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:48:25 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*delete_var(char *content, int length)
 		i ++;
 	}
 	string[i] = '\0';
-	free(content);
+	// free(content);
 	return (string);
 }
 

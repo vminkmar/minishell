@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 12:46:56 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:35:19 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int argc, char *argv[], char *env[])
 			continue ;
 		create_first_cmd(&cmd);
 		connector(input, cmd, node);
+		free(input);
 		free_list(cmd);
 		cmd = NULL;
 	}
