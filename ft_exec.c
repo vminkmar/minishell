@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/06 16:18:42 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:28:17 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ char	*search_env(char *name, t_env *node)
 {
 	while (node != NULL)
 	{
-		// printf("node: %s = ", node->name);
-		// printf("%s\n", node->value);
 		if (ft_strcmp(node->name, name) == 0)
 		{
 			return (node->value);

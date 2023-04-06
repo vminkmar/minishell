@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:13:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 15:13:00 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:26:44 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,24 @@ int	rest(char *str)
 	return (1);
 }
 
-// int compare_cdm_utils(t_cmd *cmd, t_env *node)
-// {
-	
-//}
+int	compare_cdm_utils(t_cmd *cmd, t_env *node)
+{
+	if (ft_strcmp("pwd", cmd->head->content) == 0)
+	{
+		execute_pwd();
+	}
+	else if (ft_strcmp("export", cmd->head->content) == 0)
+	{
+		if (execute_export(cmd, &node) == 1)
+			return (1);
+	}
+	else if (ft_strcmp("exit", cmd->head->content) == 0)
+	{
+		if (execute_exit(cmd) == 1)
+			return (1);
+	}
+	return (0);
+}
 
 int	compare_cmd(t_cmd *cmd, t_env *node)
 {
@@ -68,19 +82,7 @@ int	compare_cmd(t_cmd *cmd, t_env *node)
 	{
 		execute_cd(cmd);
 	}
-	else if (ft_strcmp("pwd", cmd->head->content) == 0)
-	{
-		execute_pwd();
-	}
-	else if (ft_strcmp("export", cmd->head->content) == 0)
-	{
-		if (execute_export(cmd, &node) == 1)
-			return (1);
-	}
-	else if (ft_strcmp("exit", cmd->head->content) == 0)
-	{
-		if (execute_exit(cmd) == 1)
-			return (1);
-	}
+	if (compare_cdm_utils(cmd, node) == 1)
+		return (1);
 	return (0);
 }
