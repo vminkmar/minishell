@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 22:46:43 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:28:28 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 		new = sl_strjoin_free(new, new_content, 3);
 	}
 	content = ft_strdup(new);
-	return ((*i)++, free(new), free(new_content), content);
+	if (flag == 0)
+		free(new_content);
+	return ((*i)++, free(new), content);
 }
 
 int	expand_variables_unquoted_utils(char *content, int *i, int flag)

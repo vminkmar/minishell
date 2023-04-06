@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:21:18 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:29:43 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 		exec->pipe_num++;
 	}
 	wait_all(exec);
+	unlink(".heredoc_data");
 	return (0);
 }
 
