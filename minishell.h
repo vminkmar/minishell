@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:19:32 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:35:31 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,8 @@ int		get_command(t_cmd *cmd, t_env *node, t_execute exec, char **env);
 int		compare_cmd(t_cmd *cmd, t_env *node, t_execute exec, char **env);
 int		look_out_for_command(t_cmd *cmd);
 char	*here_doc(char *eof, char suppress, t_env *env);
-void free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node);
+void	free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node);
+int		look_out_for_builtin(t_cmd *cmd);
 
 //executor
 void	executor(t_execute *exec);

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 00:31:40 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:22:17 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ int	get_new_node_exec(t_token *token, t_env **node)
 			print_error("export: ");
 			print_error(token->content);
 			print_error(" is not a valid identifier\n");
-			// if (a[0] != NULL)
-			// 	free(a[0]);
-			// if (a[1] != NULL)
-			// 	free(a[1]);
-			// if (a != NULL)
-			// 	free(a);
 			g_status = 1;
 			return (1);
 		}

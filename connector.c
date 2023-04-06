@@ -6,19 +6,11 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:16:53 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:36:15 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void free_all_stuff(t_cmd *cmd, t_execute exec, char **env, t_env *node)
-{
-	free_exec(exec.commands);
-	free_env_strings(env);
-	free_all(&node);
-	free_list(cmd);
-}
 
 int	look_out_for_command(t_cmd *cmd)
 {
@@ -95,17 +87,16 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env)
 	}
 }
 
-int	look_out_for_builtin(t_cmd *cmd)
+int	checker(char *input, t_cmd *cmd, t_env *node)
 {
-	if (ft_strcmp("unset", cmd->head->content) == 0)
-		return (0);
-	else if (ft_strcmp("cd", cmd->head->content) == 0)
-		return (0);
-	else if (ft_strcmp("export", cmd->head->content) == 0)
-		return (0);
-	else if (ft_strcmp("exit", cmd->head->content) == 0)
-		return (0);
-	return (1);
+	if (lexer(input, cmd) == 1)
+		return (1);
+	cmd = parse_stuff(cmd);
+	if (cmd == NULL)
+		return (1);
+	if (expander(cmd, node) == 1)
+		return (1);
+	return (0);
 }
 
 int	connector(char *input, t_cmd *cmd, t_env *node)
@@ -114,12 +105,7 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 	char		**env;
 
 	exec.pipe_num = 0;
-	if (lexer(input, cmd) == 1)
-		return (1);
-	cmd = parse_stuff(cmd);
-	if (cmd == NULL)
-		return (1);
-	if (expander(cmd, node) == 1)
+	if (checker(input, cmd, node) == 1)
 		return (1);
 	exec.pipes = count_pipes(cmd);
 	exec.commands = linked_to_char(cmd, exec);

@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:10:36 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:19:02 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:32:43 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	execute_exit_utils(t_cmd *cmd, t_env *node, char **env, t_execute exec)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = cmd->head;
 	if (check_for_numbers(token->next->content) == 0)
