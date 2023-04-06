@@ -6,7 +6,7 @@
 /*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 06:33:27 by kisikogl          #+#    #+#             */
-/*   Updated: 2023/04/06 16:18:42 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:19:07 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,12 @@ void	found_it(char *argv[], char *joined, char *path_arr[], char **env)
 		free_join = 'n';
 	argv[0] = joined;
 	ft_free(path_arr);
-	if (execve(argv[0], argv, env) == -1)
+	if (execve(argv[0], argv, env))
 	{
 		perror("Error: ");
 	}
+	ft_free(env);
+	ft_free(argv);
 	if (free_join == 'y')
 		free(joined);
 }
