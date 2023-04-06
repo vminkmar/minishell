@@ -6,11 +6,25 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:22:17 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:42:52 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_new_node_exec(t_token *token, char **a)
+{
+	if ((check_before_equal(token->content) == 1 || a[1] == NULL)
+		|| is_valid_export(a[0]) == 1)
+	{
+		print_error("export: ");
+		print_error(token->content);
+		print_error(" is not a valid identifier\n");
+		g_status = 1;
+		return (1);
+	}
+	return (0);
+}
 
 int	get_new_node_exec(t_token *token, t_env **node)
 {
@@ -21,15 +35,8 @@ int	get_new_node_exec(t_token *token, t_env **node)
 		a = split_env(token->content, '=');
 		if (check_before_equal(token->content) == 2 && a[1] == NULL)
 			a[1] = ft_strdup("");
-		if ((check_before_equal(token->content) == 1 || a[1] == NULL)
-			|| is_valid_export(a[0]) == 1)
-		{
-			print_error("export: ");
-			print_error(token->content);
-			print_error(" is not a valid identifier\n");
-			g_status = 1;
+		if (check_new_node_exec(token, a) == 1)
 			return (1);
-		}
 		if (check_string(a[0]) == 1)
 			return (1);
 		add_node(a, node);

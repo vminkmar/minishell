@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:39:18 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:28:48 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:39:31 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	write_lines(char suppress, char *eof, int fd, t_env *env)
 		line = get_next_line(STDIN_FILENO);
 		tab = get_tab(suppress, line);
 		if (line == NULL || (ft_strncmp(eof, line + tab,
-			ft_strlen(line + tab) - 1) == 0 && *line != '\n'))
+					ft_strlen(line + tab) - 1) == 0 && *line != '\n'))
 			break ;
 		if (ignore == 0)
 		{
