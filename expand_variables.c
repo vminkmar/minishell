@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 21:59:58 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:46:43 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 		new = sl_strjoin_free(new, new_content, 3);
 	}
 	content = ft_strdup(new);
-	return ((*i)++, free(new), content);
+	return ((*i)++, free(new), free(new_content), content);
 }
 
 int	expand_variables_unquoted_utils(char *content, int *i, int flag)
