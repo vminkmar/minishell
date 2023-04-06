@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:12:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 01:18:00 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:31:54 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ int	check_for_numbers(char *str)
 {
 	int	i;
 
-	i = 0;
+	i = 0; 
+	if(str[0] == '+' || str[0] == '-')
+		i++;
+	if(str[i] == '+' || str[i] == '-')
+		return (1);
 	while (str[i] != '\0')
 	{
 		if (str[i] >= '0' && str[i] <= '9')

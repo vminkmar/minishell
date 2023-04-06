@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 15:30:40 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:55:25 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 		exec->pipe_num++;
 	}
 	wait_all(exec);
-	// free(exec->pids);
 	return (0);
 }
 
@@ -54,8 +53,10 @@ void	execute_last_utils(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 	if (look_out_for_command(cmd) == 0)
 		compare_cmd(cmd, node);
 	else
+	{
 		ft_exec(exec->commands[exec->pipe_num], env, node);
-	exit(1);
+	}
+	exit(g_status);
 }
 
 int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd)

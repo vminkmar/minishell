@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_var_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 22:10:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 09:35:04 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:08:49 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

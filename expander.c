@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:37:04 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:13:58 by kisikogl         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:54:27 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int	expander(t_cmd *cmd, t_env *env)
 		{
 			tmp = token->content;
 			token->content = expand_variables(token->content, env);
-			if (tmp != NULL)
-				free(tmp);
+			free(tmp);
 			token = token->next;
 		}
 		cmd = cmd->next;
