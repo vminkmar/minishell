@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 22:04:07 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:47:36 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*delete_var(char *content, int length)
 	int		i;
 
 	i = 0;
+	if (content == NULL)
+		return (NULL);
 	string = malloc(length + 1);
 	while (i < length)
 	{
@@ -25,6 +27,7 @@ char	*delete_var(char *content, int length)
 		i ++;
 	}
 	string[i] = '\0';
+	free(content);
 	return (string);
 }
 
@@ -38,7 +41,7 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 	new_content = NULL;
 	new = ft_strdup("");
 	new_content = remove_dq(content, i);
-	new = sl_strjoin(new, new_content);
+	new = sl_strjoin_free(new, new_content, 3);
 	*i = *j + 1;
 	while (content[*i] != '\"' && content[*i] != '\0')
 	{
@@ -51,10 +54,10 @@ char	*expand_variables_quoted(char *content, t_env *env, int *i, int *j)
 	{
 		new = delete_var(new, (ft_strlen(new) - ft_strlen(new_content)));
 		new_content = expand_var(&content[*j + 1], env, *i - 1 - *j);
-		new = sl_strjoin(new, new_content);
+		new = sl_strjoin_free(new, new_content, 3);
 	}
 	content = ft_strdup(new);
-	return ((*i)++, free(new), free(new_content), content);
+	return ((*i)++, free(new), content);
 }
 
 int	expand_variables_unquoted_utils(char *content, int *i, int flag)
@@ -72,13 +75,13 @@ int	expand_variables_unquoted_utils(char *content, int *i, int flag)
 		flag = 1;
 	}
 	else
-	{	
+	{
 		if (content[*i] == '$')
 		{
 			(*i)++;
 			if (content[*i] == '?')
 				(*i)++;
-		}		
+		}
 		while (content[*i] != '\0' && is_valid(content[*i]) == 0)
 			(*i)++;
 	}
@@ -97,10 +100,9 @@ char	*expand_variables_unquoted(char *content, t_env *env, int *i, int *j)
 	*j = *i;
 	flag = expand_variables_unquoted_utils(content, i, flag);
 	new_content = expand_var(&content[*j], env, *i - *j);
-	new_token = sl_strjoin(new_token, new_content);
+	new_token = sl_strjoin_free(new_token, new_content, 3);
 	content = ft_strdup(new_token);
 	free(new_token);
-	free(new_content);
 	if (flag == 1)
 		(*i)++;
 	return (content);

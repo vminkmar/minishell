@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_var_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 22:10:56 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 00:16:29 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:35:04 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	change_value_check_dollar(char **str, int *i)
 		if (str[*i][0] == '\"')
 			str[*i] = remove_dq(str[*i], &j);
 		return (0);
-	}	
+	}
 	if (check_after_dollar(str[*i]) == 1)
 		return (0);
 	dollar = malloc(ft_strlen(str[*i]));
@@ -84,7 +84,7 @@ char	*change_value(char **str, t_env *env, int i, int j)
 			}
 			j++;
 		}
-		new = sl_strjoin(new, str[i]);
+		new = sl_strjoin_free(new, str[i], 1);
 		i++;
 	}
 	return (new);

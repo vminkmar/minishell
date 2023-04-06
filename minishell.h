@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 01:21:45 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:08:21 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,13 +205,13 @@ char	*change_question_mark_utils(char *str, char *new, char *number,
 //expander_utils
 int		is_valid(char c);
 char	*sl_strjoin(char *s1, char *s2);
+char	*sl_strjoin_free(char *s1, char *s2, char how_many);
 
 //error_management
 void	free_cmd_token(t_cmd **cmd);
 void	free_all(t_env **node);
 void	free_list(t_cmd *cmd);
 void	print_error(char *str);
-t_cmd	*free_list_error(t_cmd **cmd);
 
 // lexer
 int		lexer(char *input, t_cmd *cmd);

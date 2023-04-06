@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:34:00 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 21:37:32 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:20:36 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	checking_redirections(t_cmd *cmd, t_execute *exec, int end, t_env *env)
 	int		out;
 	int		in;
 	int		counter;
-	
+
 	exec->in = STDIN_FILENO;
 	exec->out = STDOUT_FILENO;
 	counter = 0;
@@ -109,18 +109,18 @@ int	connector(char *input, t_cmd *cmd, t_env *node)
 		return (1);
 	exec.pipes = count_pipes(cmd);
 	exec.commands = linked_to_char(cmd, exec);
-	env =  linked_env_to_strings(node);
+	env = linked_env_to_strings(node);
 	if (exec.pipes == 0)
 	{
 		if (look_out_for_builtin(cmd) == 0)
 		{
-			if(compare_cmd(cmd, node) == 1)
-				return(1);
+			if (compare_cmd(cmd, node) == 1)
+				return (1);
 		}
 		else
 			ft_pipe(cmd, node, &exec, env);
 	}
-	else	
+	else
  		ft_pipe(cmd, node, &exec, env);
 	free_exec(exec.commands);
 	free_env_strings(env);

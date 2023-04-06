@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:36:27 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 20:24:30 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 08:00:46 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,20 @@ void	free_list(t_cmd *cmd)
 	t_token	*del;
 	t_cmd	*temp;
 
-	if (cmd != NULL)
-	{	
-		while (cmd->next != NULL)
+	while (cmd != NULL)
+	{
+		tmp = cmd->head;
+		while (tmp != NULL)
 		{
-			tmp = cmd->head;
-			while (tmp->next != NULL)
-			{
-				del = tmp;
-				tmp = tmp->next;
-				free(del->content);
-				free(del);
-			}
-			temp = cmd;
-			cmd = cmd->next;
-			free(temp);
+			del = tmp;
+			tmp = tmp->next;
+			free(del->content);
+			free(del);
 		}
+		temp = cmd;
+		cmd = cmd->next;
+		free(temp);
 	}
-}
-
-t_cmd	*free_list_error(t_cmd **cmd)
-{
-	t_token	*tmp;
-	t_token	*del;
-	t_cmd	*temp;
-
-	if ((*cmd) != NULL)
-	{	
-		while ((*cmd)->next != NULL)
-		{
-			tmp = (*cmd)->head;
-			while (tmp != NULL)
-			{
-				del = tmp;
-				tmp = tmp->next;
-				free(del->content);
-				free(del);
-			}
-			temp = (*cmd);
-			(*cmd) = (*cmd)->next;
-			free(temp);
-		}
-	}
-	return (NULL);
 }
 
 void	put_error(char c)

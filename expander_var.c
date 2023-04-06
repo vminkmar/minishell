@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:23:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 00:17:57 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:40:20 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,6 @@ char	*expand_var(char *str, t_env *env, int length)
 	i = 0;
 	j = 0;
 	counter = get_number(str, length);
-	value = malloc((counter + 1) * sizeof(char *));
-	if (value == NULL)
-	{	
-		printf("memory allocation failed");
-		return (NULL);
-	}
 	value = get_words(str, length, counter, &sup);
 	str = change_value(value, env, i, j);
 	free(value);

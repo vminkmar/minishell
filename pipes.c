@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:17:48 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 00:56:52 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:50:58 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_pipe(t_cmd *cmd, t_env *node, t_execute *exec, char **env)
 		exec->pipe_num++;
 	}
 	wait_all(exec);
+	// free(exec->pids);
 	return (0);
 }
 
@@ -67,7 +68,7 @@ int	execute_last(t_execute *exec, char **env, t_env *node, t_cmd *cmd)
 		execute_last_utils(exec, env, node, cmd);
 	}
 	else
-	{	
+	{
 		exec->pids[exec->pipe_num] = pid;
 		fbindere_close(exec->pipes_fd[1], exec->pipes_fd[0],
 			exec->tmp_fd, exec->out > 2);

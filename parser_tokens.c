@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:09:30 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 22:44:15 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:58:58 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_command(t_cmd *cmd)
 {
 	if (cmd->head == NULL)
 	{
-		print_error("syntax error near unexpected token");
+		print_error("syntax error near unexpected token\n");
 		g_status = 2;
 		return (1);
 	}

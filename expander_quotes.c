@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 17:20:29 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 21:39:50 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:45:41 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ char	*remove_dq(char *str, int *i)
 
 	dest = malloc(ft_strlen(str) + 1);
 	if (dest == NULL)
-	{	
+	{
 		printf("memory allocation failed");
 		return (NULL);
 	}
 	j = 0;
 	if (str[*i] == '\"')
-	{	
+	{
 		(*i)++;
 	}
 	while (str[*i] != '\"' && str[*i] != '\0')
@@ -45,13 +45,13 @@ char	*remove_sq(char *str, int *i)
 
 	dest = malloc(ft_strlen(str) + 1);
 	if (dest == NULL)
-	{	
+	{
 		printf("memory allocation failed");
 		return (NULL);
 	}
 	j = 0;
 	if (str[*i] == '\'')
-	{	
+	{
 		(*i)++;
 	}
 	while (str[*i] != '\'' && str[*i] != '\0')
@@ -73,10 +73,9 @@ char	*expand_sq(char *content, int *i, int *j)
 	new_token = ft_strdup("");
 	*j = *i;
 	new_content = remove_sq(content, i);
-	new_token = sl_strjoin(new_token, new_content);
+	new_token = sl_strjoin_free(new_token, new_content, 3);
 	(*i)++;
 	content = ft_strdup(new_token);
 	free(new_token);
-	free(new_content);
 	return (content);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:38:34 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 22:30:34 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:07:23 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*sl_strjoin(char *s1, char *s2)
 	if (s1 == NULL)
 		return (ft_strdup(s2));
 	if (s2 == NULL)
-		return (NULL);
+		return (ft_strdup(s1));
 	a = stupid_shit(s1, s2, &i, &j);
 	while (s1[i] != '\0')
 	{
@@ -64,5 +64,42 @@ char	*sl_strjoin(char *s1, char *s2)
 		i++;
 		j++;
 	}
+	return (a[i] = '\0', a);
+}
+
+void	free_the_joined(char *s1, char *s2, char how_many)
+{
+	if (s1 != NULL && (how_many == 1 || how_many == 3))
+		free(s1);
+	if (s2 != NULL && how_many > 1)
+		free(s2);
+}
+
+char	*sl_strjoin_free(char *s1, char *s2, char how_many)
+{
+	char	*a;
+	int		i;
+	int		j;
+
+	if (s1 == NULL)
+		return (ft_strdup(s1));
+	if (s2 == NULL)
+		return (ft_strdup(s2));
+	a = stupid_shit(s1, s2, &i, &j);
+	i--;
+	while (s1[++i] != '\0')
+		a[i] = s1[i];
+	if (s2[j] == '\0')
+	{
+		free_the_joined(s1, s2, how_many);
+		return (a[i] = '\0', a);
+	}
+	while (s2[j] != '\0')
+	{
+		a[i] = s2[j];
+		i++;
+		j++;
+	}
+	free_the_joined(s1, s2, how_many);
 	return (a[i] = '\0', a);
 }

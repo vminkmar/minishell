@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:37:04 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 22:05:45 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:09:21 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*expand_token(char *new_token, char *tmp)
+{
+	free(new_token);
+	return (tmp);
+}
 
 char	*expand_rest(char *content, int *i, int *j)
 {
@@ -24,10 +30,9 @@ char	*expand_rest(char *content, int *i, int *j)
 		&& content[*i] != '$')
 		(*i)++;
 	new_content = ft_substr(content, *j, *i - *j);
-	new_token = sl_strjoin(new_token, new_content);
+	new_token = sl_strjoin_free(new_token, new_content, 3);
 	content = ft_strdup(new_token);
 	free(new_token);
-	free(new_content);
 	return (content);
 }
 
@@ -43,18 +48,16 @@ char	*expand_variables(char *content, t_env *env)
 	while (content[i] != '\0')
 	{
 		if (content[i] == '\"')
-		{
 			j = i;
-			new_token = sl_strjoin(new_token,
-					expand_variables_quoted(content, env, &i, &j));
-		}
+		if (content[i] == '\"')
+			new_token = sl_strjoin_free(new_token
+				, expand_variables_quoted(content, env, &i, &j), 3);
 		if (content[i] == '\'')
-			new_token = sl_strjoin(new_token, expand_sq(content, &i, &j));
+			new_token = sl_strjoin_free(new_token, expand_sq(content, &i, &j), 3);
 		if (content[i] == '$')
-			new_token = sl_strjoin(new_token,
-					expand_variables_unquoted(content, env, &i, &j));
+			new_token = sl_strjoin_free(new_token, expand_variables_unquoted(content, env, &i, &j), 3);
 		if (content[i] != '\'' && content[i] != '\"' && content[i] != '\0')
-			new_token = sl_strjoin(new_token, expand_rest(content, &i, &j));
+			new_token = sl_strjoin_free(new_token, expand_rest(content, &i, &j), 3);
 	}
 	return (new_token);
 }
@@ -67,7 +70,9 @@ int	expander(t_cmd *cmd, t_env *env)
 	{
 		token = cmd->head;
 		while (token != NULL)
-		{	
+		{
+			if (token->content != NULL)
+				free(token->content);
 			token->content = expand_variables(token->content, env);
 			token = token->next;
 		}

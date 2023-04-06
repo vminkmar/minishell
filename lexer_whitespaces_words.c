@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_whitespaces_words.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 15:26:35 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/03/28 18:05:18 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 07:51:49 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int	lexer_whitespace(char *input, t_cmd *cmd, t_con *con)
 			&& is_sign(input[con->i - 1]) == 1)
 		&& (is_whitespace(input[con->i - 1]) == 1
 			|| is_quoted(input[con->i - 1]) == 0))
-	{	
+	{
 		j = ft_substr(input, con->k, con->i - con->k);
 		add_token(cmd, j);
-		j = NULL;
 		con->i++;
 		con->k = con->i;
 		return (0);

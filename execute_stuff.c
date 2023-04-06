@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:07:21 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/05 20:23:08 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:09:06 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
 
 int	count_pipes(t_cmd *cmd)
 {
@@ -98,9 +99,7 @@ char	**linked_env_to_strings(t_env *node)
 	str = malloc(sizeof(char *) * (size + 1));
 	while (node != NULL)
 	{
-		str[i] = ft_strdup(node->name);
-		new = sl_strjoin(str[i], "=");
-		new = sl_strjoin(str[i], ft_strdup(node->value));
+		new = sl_strjoin(node->name, node->value);
 		str[i] = ft_strdup(new);
 		free(new);
 		i++;

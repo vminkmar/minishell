@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_get_words.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: kisikogl <kisikogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 00:06:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 00:11:10 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:35:20 by kisikogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	get_words_variable(char *str, t_sup *sup, int length)
 	{
 		if (str[sup->i + 1] == '$')
 		{
-			sup->value[sup->words] = ft_substr(str, sup->j, sup->i + 1
-					- sup->j);
+			sup->value[sup->words] = ft_substr(str, sup->j, sup->i + 1 - sup->j);
 			sup->j = sup->i;
 			sup->words ++;
 		}
@@ -82,13 +81,13 @@ void	get_words_variable(char *str, t_sup *sup, int length)
 }
 
 char	**get_words(char *str, int length, int counter, t_sup *sup)
-{	
+{
 	sup->words = 0;
 	sup->i = 0;
 	sup->j = 0;
 	sup->value = malloc((counter + 1) * sizeof(char *));
 	if (sup->value == NULL)
-	{	
+	{
 		printf("memory allocation failed");
 		return (NULL);
 	}
