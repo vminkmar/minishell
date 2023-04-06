@@ -6,17 +6,11 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 10:37:04 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 15:50:16 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:54:27 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*expand_token(char *new_token, char *tmp)
-{
-	free(new_token);
-	return (tmp);
-}
 
 char	*expand_rest(char *content, int *i, int *j)
 {
@@ -48,10 +42,11 @@ char	*expand_variables(char *content, t_env *env)
 	while (content[i] != '\0')
 	{
 		if (content[i] == '\"')
+		{
 			j = i;
-		if (content[i] == '\"')
-			new_token = sl_strjoin_free(new_token
-				, expand_variables_quoted(content, env, &i, &j), 3);
+			new_token = sl_strjoin_free(new_token,
+					expand_variables_quoted(content, env, &i, &j), 3);
+		}
 		if (content[i] == '\'')
 			new_token = sl_strjoin_free(new_token, expand_sq(content, &i, &j), 3);
 		if (content[i] == '$')

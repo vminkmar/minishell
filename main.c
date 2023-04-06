@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:20:51 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 16:48:29 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:55:03 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char *argv[], char *env[])
 		// input = "cd \"$PWD/file_tests\"";
 		create_first_cmd(&cmd);
 		connector(input, cmd, node);
+		free(input);
 		free_list(cmd);
 		cmd = NULL;
 	}

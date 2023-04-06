@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 21:41:58 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 16:49:09 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:53:48 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*delete_var(char *content, int length)
 		i ++;
 	}
 	string[i] = '\0';
-	// free(content);
 	return (string);
 }
 
