@@ -3,4 +3,4 @@ minishell
 /LeakSanitizer
 /minishell.dSYM
 /.vscode
-/dwnlds
+utils/readline

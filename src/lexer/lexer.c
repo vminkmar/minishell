@@ -6,11 +6,11 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:21:11 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 17:52:26 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:43:56 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 int	lexer_two(char *input, t_cmd *tmp, t_con *con)
 {

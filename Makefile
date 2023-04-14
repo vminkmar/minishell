@@ -9,48 +9,42 @@ FILES			:=	lexer.c main.c signal.c set_env.c utils.c parser.c execute_stuff.c co
 					here_doc.c connector_free.c expand_variables.c expand_variables_utils.c expander_checks_dollar.c\
 					expander_get_words.c expander_var_utils.c export_utils.c pipes_utils.c compare_cmd.c buildins_utils.c\
 					execute_echo.c
+
 RM				:=	rm -f
+
+HEADER			:=	-I./include
+
+VPATH			:=	src/ src/executor src/connector src/expander src/lexer src/parser src/redirections src/utils
 
 LINK_FLAGS		:=
 
-DOWNLOADFOLDER	= dwnlds
+ODIR			:=	obj
 
-LIBFT			:=	libft
+OBJS			:=	$(FILES:%.c=$(ODIR)/%.o)
 
-LFT				:=	libft/libft.a
+DOWNLOADFOLDER	:=	utils/readline/dwnlds
 
-LFLAGS 			:= -Llibft -lft -L $(DOWNLOADFOLDER)/readline_out/lib -lreadline
+LIBFT			:=	utils/libft
+
+LFT				:=	utils/libft/libft.a
+
+LFLAGS 			:=	 -L $(DOWNLOADFOLDER)/readline_out/lib -lreadline
 
 CFLAGS			:=	-Wall -Werror -Wextra -g -I $(DOWNLOADFOLDER)/readline_out/include
 
-OBJECTS			:=	$(FILES:%.c=%.o)
-
 all:  $(NAME)
-
-$(DOWNLOADFOLDER):
-	mkdir -p $(DOWNLOADFOLDER)
-	curl -s https://ftp.gnu.org/gnu/readline/readline-8.1.2.tar.gz --output $(DOWNLOADFOLDER)/readline-8.1.2.tar.gz
-	tar xfz $(DOWNLOADFOLDER)/readline-8.1.2.tar.gz -C $(DOWNLOADFOLDER)
-	cd $(DOWNLOADFOLDER)/readline-8.1.2; ./configure --prefix=$(PWD)/dwnlds/readline_out; cd ../../
-	$(MAKE) -C $(DOWNLOADFOLDER)/readline-8.1.2
-	$(MAKE) install -C $(DOWNLOADFOLDER)/readline-8.1.2
-
 
 $(LFT):	$(LIBFT)
 	$(MAKE) -C $(LIBFT) --silent
 
-$(NAME): $(OBJECTS) minishell.h $(LFT) $(DOWNLOADFOLDER)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LINK_FLAGS) $(LFLAGS) -o $@
+$(NAME): $(DOWNLOADFOLDER) $(OBJS) $(LFT)
+	$(CC) $(CFLAGS) $(LFT) $(OBJS) $(LINK_FLAGS) $(LFLAGS) -o $@
 
-norminette:
-	norminette lexer.c main.c signal.c set_env.c utils.c parser.c execute_stuff.c connector.c error_management.c\
-					expander.c lexer_utils.c expander_utils.c buildins.c set_env_utils.c lexer_pipes_redirections.c\
-					lexer_check_quotes.c lexer_whitespaces_words.c parser_quotes.c parser_utils.c parser_redirections.c\
-					parser_tokens.c expander_quotes.c expander_var.c utils_utils.c ft_exec.c export.c pipes.c redirections.c\
-					here_doc.c connector_free.c expand_variables.c expand_variables_utils.c expander_checks_dollar.c\
-					expander_get_words.c expander_var_utils.c export_utils.c pipes_utils.c compare_cmd.c buildins_utils.c\
-					execute_echo.c
+$(ODIR)/%.o: %.c | $(ODIR)
+	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
 
+norm:
+	norminette src/ include/ utils/libft
 
 clean:
 	$(MAKE) -C $(LIBFT) clean
@@ -64,7 +58,7 @@ re: fclean all
 run:
 	@./minishell
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run norm
 
 
 LSAN			=	LeakSanitizer
@@ -88,3 +82,11 @@ $(LSAN):
 	git clone https://github.com/mhahnFr/LeakSanitizer.git
 $(LSANLIB): $(LSAN)
 	@$(MAKE) -C LeakSanitizer
+
+$(DOWNLOADFOLDER):
+	mkdir -p $(DOWNLOADFOLDER)
+	curl -s https://ftp.gnu.org/gnu/readline/readline-8.1.2.tar.gz --output $(DOWNLOADFOLDER)/readline-8.1.2.tar.gz
+	tar xfz $(DOWNLOADFOLDER)/readline-8.1.2.tar.gz -C $(DOWNLOADFOLDER)
+	cd $(DOWNLOADFOLDER)/readline-8.1.2; ./configure --prefix=$(PWD)/$(DOWNLOADFOLDER)/readline_out; cd ../../
+	$(MAKE) -C $(DOWNLOADFOLDER)/readline-8.1.2
+	$(MAKE) install -C $(DOWNLOADFOLDER)/readline-8.1.2

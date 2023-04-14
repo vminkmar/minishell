@@ -6,7 +6,7 @@
 /*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 01:04:12 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:35:31 by vminkmar         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:11:54 by vminkmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "../utils/libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "termios.h"
