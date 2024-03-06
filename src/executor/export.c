@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vminkmar <vminkmar@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: valentin <valentin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:56:44 by vminkmar          #+#    #+#             */
-/*   Updated: 2023/04/06 23:42:52 by vminkmar         ###   ########.fr       */
+/*   Updated: 2024/03/06 20:05:45 by valentin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,13 @@ int	create_new_env(t_env **node, char *content)
 	string = ft_split(content, '=');
 	if (string[1] == NULL)
 	{
-		return (free(string[0]), free(string[1]), free(string), 1);
-	}
+        return (free(string[0]), free(string[1]), free(string), 1);
+    }	
 	new = new_node(string, node);
+    if (new == NULL)
+	{
+        return (free(string[0]), free(string[1]), free(string), 1);
+    }	
 	free(string[0]);
 	free(string[1]);
 	free(string);

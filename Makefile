@@ -28,27 +28,30 @@ LIBFT			:=	utils/libft
 
 LFT				:=	utils/libft/libft.a
 
-LFLAGS 			:=	 -L $(DOWNLOADFOLDER)/readline_out/lib -lreadline
+LFLAGS 			:=	-L $(DOWNLOADFOLDER)/readline_out/lib -lreadline -ltermcap -L$(LIBFT) -lft
 
 CFLAGS			:=	-Wall -Werror -Wextra -g -I $(DOWNLOADFOLDER)/readline_out/include
 
 all:  $(NAME)
 
 $(LFT):	$(LIBFT)
-	$(MAKE) -C $(LIBFT) --silent
+	$(MAKE) -C $(LIBFT)
 
 $(NAME): $(DOWNLOADFOLDER) $(OBJS) $(LFT)
-	$(CC) $(CFLAGS) $(LFT) $(OBJS) $(LINK_FLAGS) $(LFLAGS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LFT) $(LINK_FLAGS) $(LFLAGS) -o $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
 	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+
+$(ODIR):
+	mkdir -p $(ODIR)
 
 norm:
 	norminette src/ include/ utils/libft
 
 clean:
 	$(MAKE) -C $(LIBFT) clean
-	$(RM) $(OBJECTS)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME) $(LFT)
