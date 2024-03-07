@@ -17,7 +17,7 @@ Minishell is a C-based shell program designed to offer a user-friendly command-l
 - **Environment Variables:** Handling environment variables ($) and expanding them to their values.
 - **Exit Status Expansion:** Handling $? to expand to the exit status of the most recently executed foreground pipeline.
 - **Signal Handling:** Handling ctrl-C, ctrl-D, and ctrl-\ in interactive mode.
-- **Built-in Commands:** Implementing built-in commands: echo, cd, pwd, export, unset, env, and exit.
+- **Built-in Commands:** echo, cd, pwd, export, unset, env, and exit.
 
 ### **Usage**
 To build the Minishell program, use the provided Makefile:
